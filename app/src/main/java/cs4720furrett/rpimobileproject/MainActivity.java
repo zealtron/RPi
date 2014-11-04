@@ -1,11 +1,12 @@
 package cs4720furrett.rpimobileproject;
 
 import android.app.Activity;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
+//import android.widget.EditText;
 
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpPost;
@@ -16,6 +17,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 
 
 public class MainActivity extends Activity {
@@ -52,36 +54,61 @@ public class MainActivity extends Activity {
     /* Sends post */
     public void sendPost(View view) throws IOException, JSONException {
 
-        EditText editText  = (EditText)findViewById(R.id.editText);
-        String postURL = editText.getText().toString();
+        //get url from field
+        //EditText editText  = (EditText)findViewById(R.id.editText);
+        //String postURL = editText.getText().toString();
+        String postURL = "http://cs4720.cs.virginia.edu/rpi/?username=csh7kd"; //hard coding for now
+        new SendPost().execute(postURL);
+    }
 
-        String json = "{\n" +
-                "\"lights\": [\n" +
-                "\n" +
-                "{\"lightId\": 1, \"red\":255,\"green\":0,\"blue\":0, \"intensity\": 0.3},\n" +
-                "{\"lightId\": 10, \"red\":0,\"green\":0,\"blue\":255, \"intensity\": 0.5},\n" +
-                "{\"lightId\": 15, \"red\":255,\"green\":0,\"blue\":255, \"intensity\": 0.5},\n" +
-                "{\"lightId\": 20, \"red\":0,\"green\":255,\"blue\":0, \"intensity\": 0.7}],\n" +
-                "\n" +
-                "\"propagate\": true\n" +
-                "}";
+    private class SendPost extends AsyncTask<String, Void, Void> {
+        @Override
+        protected Void doInBackground(String... params) {
+            String postURL = params[0];
+            String json = "{\n" +
+                    "\"lights\": [\n" +
+                    "\n" +
+                    "{\"lightId\": 1, \"red\":255,\"green\":0,\"blue\":0, \"intensity\": 0.3},\n" +
+                    "{\"lightId\": 10, \"red\":0,\"green\":0,\"blue\":255, \"intensity\": 0.5},\n" +
+                    "{\"lightId\": 15, \"red\":255,\"green\":0,\"blue\":255, \"intensity\": 0.5},\n" +
+                    "{\"lightId\": 20, \"red\":0,\"green\":122,\"blue\":0, \"intensity\": 0.7}],\n" +
+                    "\n" +
+                    "\"propagate\": true\n" +
+                    "}";
 
-        DefaultHttpClient httpClient = new DefaultHttpClient();
+            DefaultHttpClient httpClient = new DefaultHttpClient();
 
-        //make connection to path
-        HttpPost httpPost = new HttpPost(postURL);
+            //make connection to path
+            HttpPost httpPost = new HttpPost(postURL);
 
-        //json object to be sent
-        JSONObject holder = new JSONObject(json);
+            //json object to be sent
+            JSONObject holder = null;
+            try {
+                holder = new JSONObject(json);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
 
-        StringEntity se = new StringEntity(holder.toString());
+            assert holder != null;
+            StringEntity se = null;
+            try {
+                se = new StringEntity(holder.toString());
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
 
-        httpPost.setEntity(se);
-        httpPost.setHeader("Accept", "application/json");
-        httpPost.setHeader("Content-type", "application/json");
+            httpPost.setEntity(se);
+            httpPost.setHeader("Accept", "application/json");
+            httpPost.setHeader("Content-type", "application/json");
 
-        //Handles what is returned from the page
-        ResponseHandler responseHandler = new BasicResponseHandler();
-        httpClient.execute(httpPost, responseHandler);
+            //Handles what is returned from the page
+            ResponseHandler responseHandler = new BasicResponseHandler();
+            try {
+                httpClient.execute(httpPost, responseHandler);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
     }
 }
