@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-//import android.widget.EditText;
+import android.widget.EditText;
 
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpPost;
@@ -55,9 +55,10 @@ public class MainActivity extends Activity {
     public void sendPost(View view) throws IOException, JSONException {
 
         //get url from field
-        //EditText editText  = (EditText)findViewById(R.id.editText);
-        //String postURL = editText.getText().toString();
-        String postURL = "http://cs4720.cs.virginia.edu/rpi/?username=csh7kd"; //hard coding for now
+        EditText editText  = (EditText)findViewById(R.id.editText);
+        String postURL = editText.getText().toString();
+        if (!postURL.startsWith("http://")) postURL = "http://" + postURL;
+        //String postURL = "http://cs4720.cs.virginia.edu/rpi/?username=csh7kd"; //hard coding for now
         new SendPost().execute(postURL);
     }
 
@@ -68,10 +69,8 @@ public class MainActivity extends Activity {
             String json = "{\n" +
                     "\"lights\": [\n" +
                     "\n" +
-                    "{\"lightId\": 1, \"red\":255,\"green\":0,\"blue\":0, \"intensity\": 0.3},\n" +
-                    "{\"lightId\": 10, \"red\":0,\"green\":0,\"blue\":255, \"intensity\": 0.5},\n" +
-                    "{\"lightId\": 15, \"red\":255,\"green\":0,\"blue\":255, \"intensity\": 0.5},\n" +
-                    "{\"lightId\": 20, \"red\":0,\"green\":122,\"blue\":0, \"intensity\": 0.7}],\n" +
+                    "{\"lightId\": 1, \"red\":255,\"green\":0,\"blue\":0, \"intensity\": 0.3}],\n" +
+
                     "\n" +
                     "\"propagate\": true\n" +
                     "}";

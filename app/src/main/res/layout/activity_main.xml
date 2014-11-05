@@ -22,4 +22,15 @@
         android:layout_alignStart="@+id/post_button"
         android:layout_marginBottom="44dp" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Enter URL to post to below"
+        android:id="@+id/urlLabel"
+        android:layout_above="@+id/editText"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="38dp" />
+
 </RelativeLayout>
