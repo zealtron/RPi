@@ -28,7 +28,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
 
-public class MainActivity extends Activity implements SensorEventListener{
+public class MainActivity extends Activity implements SensorEventListener {
 
     //The dialog that pops up
     private AlertDialog alertDialog;
@@ -48,17 +48,17 @@ public class MainActivity extends Activity implements SensorEventListener{
         setContentView(R.layout.activity_main);
 
         //setting up the accelerometer
-        sensorMan = (SensorManager)getSystemService(SENSOR_SERVICE);
+        sensorMan = (SensorManager) getSystemService(SENSOR_SERVICE);
         accelerometer = sensorMan.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         mAccel = 0.00f;
         mAccelCurrent = SensorManager.GRAVITY_EARTH;
         mAccelLast = SensorManager.GRAVITY_EARTH;
-        sensorMan.registerListener( this, accelerometer,SensorManager.SENSOR_DELAY_UI);
+        sensorMan.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_UI);
         buildDialog();
 
 
-
     }
+
     public void buildDialog() {
         //setting up the dialog
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -70,9 +70,9 @@ public class MainActivity extends Activity implements SensorEventListener{
                 });
 
 
-
         alertDialog = builder.create();
     }
+
     public void onClick(DialogInterface dialog, int which) {
 // here you can add functions
     }
@@ -103,13 +103,12 @@ public class MainActivity extends Activity implements SensorEventListener{
     public void sendPost(View view) throws IOException, JSONException {
 
         //get url from field
-        EditText editText  = (EditText)findViewById(R.id.editText);
+        EditText editText = (EditText) findViewById(R.id.editText);
         String postURL = editText.getText().toString();
         if (!postURL.startsWith("http://")) postURL = "http://" + postURL;
         //String postURL = "http://cs4720.cs.virginia.edu/rpi/?username=csh7kd"; //hard coding for now
         new SendPost().execute(postURL);
     }
-
 
 
     @Override
@@ -169,7 +168,7 @@ public class MainActivity extends Activity implements SensorEventListener{
     @Override
     public void onResume() {
         super.onResume();
-        sensorMan.registerListener((android.hardware.SensorEventListener) this, accelerometer,SensorManager.SENSOR_DELAY_UI);
+        sensorMan.registerListener((android.hardware.SensorEventListener) this, accelerometer, SensorManager.SENSOR_DELAY_UI);
     }
 
     @Override
@@ -197,5 +196,4 @@ public class MainActivity extends Activity implements SensorEventListener{
             }
         }
     }
-
-    }
+}
