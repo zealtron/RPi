@@ -29,9 +29,4 @@ public class GameScreen extends Activity {
         TextView mTextView = (TextView) findViewById(R.id.fullscreen_content);
         mTextView.setText(data);
     }
-
-
-
-
-
 }
