@@ -192,7 +192,7 @@ public class MainActivity extends Activity implements SensorEventListener{
             mAccel = mAccel * 0.9f + delta;
             // Make this higher or lower according to how much
             // motion you want to detect
-            if (mAccel > 1) {
+            if (mAccel > 3) {
                 alertDialog.show();
             }
         }
