@@ -103,6 +103,12 @@ public void switchToSongList(View view) {
     Intent intent = new Intent(this, SongList.class);
     startActivity(intent);
 }
+
+    public void switchToSettings(View view) {
+        Intent intent = new Intent(this, MySettings.class);
+        startActivity(intent);
+    }
+
     /* Sends post */
     public void sendPost(View view) throws IOException, JSONException {
 
@@ -113,6 +119,8 @@ public void switchToSongList(View view) {
         //String postURL = "http://cs4720.cs.virginia.edu/rpi/?username=csh7kd"; //hard coding for now
         new SendPost().execute(postURL);
     }
+
+
 
 
     @Override
