@@ -1,10 +1,19 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical" >
-    tools:context="cs4720furrett.rpimobileproject.SongList">
+    android:orientation="vertical"
+    android:id="@+id/songlinearlayout"
+    >
+    tools:context="cs4720furrett.rpimobileproject.SongList"
+    ><TextView android:text="@string/play" android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/playheader" />
 
-    <TextView android:text="@string/hello_world" android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <ListView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/list"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"/>
+
+
 
 </LinearLayout>

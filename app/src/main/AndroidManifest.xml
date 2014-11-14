@@ -22,6 +22,16 @@
             android:name="cs4720furrett.rpimobileproject.SongList"
             android:label="@string/title_activity_song_list" >
         </activity>
+        <activity
+            android:name="cs4720furrett.rpimobileproject.GameScreen"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_game_screen"
+            android:parentActivityName="cs4720furrett.rpimobileproject.SongList"
+            android:theme="@style/FullscreenTheme" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="cs4720furrett.rpimobileproject.SongList" />
+        </activity>
     </application>
 
 </manifest>
