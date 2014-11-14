@@ -3,6 +3,7 @@ package cs4720furrett.rpimobileproject;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -98,7 +99,10 @@ public class MainActivity extends Activity implements SensorEventListener {
 
         return super.onOptionsItemSelected(item);
     }
-
+public void switchToSongList(View view) {
+    Intent intent = new Intent(this, SongList.class);
+    startActivity(intent);
+}
     /* Sends post */
     public void sendPost(View view) throws IOException, JSONException {
 
