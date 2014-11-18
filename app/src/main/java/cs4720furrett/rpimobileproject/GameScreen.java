@@ -20,9 +20,10 @@ import java.util.Random;
 public class GameScreen extends Activity {
 
 
+    private final long SEED = 9001;
     private MainThread thread;
     private Random rng;
-    private final long SEED = 9001;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +38,7 @@ public class GameScreen extends Activity {
         thread.setRunning(true);
         thread.start();
     }
+
     public class MainThread extends Thread {
 
         // flag to hold game state
@@ -59,14 +61,15 @@ public class GameScreen extends Activity {
                 // render state to the screen
             }
         }
+
         public void sendPost(String postURL) {
-            int red =   rng.nextInt(11)*25;
-            int blue =  rng.nextInt(11)*25;
-            int green = rng.nextInt(11)*25;
+            int red = rng.nextInt(11) * 25;
+            int blue = rng.nextInt(11) * 25;
+            int green = rng.nextInt(11) * 25;
             String json = "{\n" +
                     "\"lights\": [\n" +
                     "\n" +
-                    "{\"lightId\": 1, \"red\":"+red+",\"green\":"+green+",\"blue\":"+blue+", \"intensity\": 0.3}],\n" +
+                    "{\"lightId\": 1, \"red\":" + red + ",\"green\":" + green + ",\"blue\":" + blue + ", \"intensity\": 0.3}],\n" +
                     "\n" +
                     "\"propagate\": true\n" +
                     "}";

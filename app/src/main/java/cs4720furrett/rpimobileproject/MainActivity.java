@@ -102,6 +102,12 @@ public class MainActivity extends Activity implements SensorEventListener {
         startActivity(intent);
     }
 
+    public void switchToSettings(View view) {
+        Intent intent = new Intent(this, MySettings.class);
+
+        startActivity(intent);
+    }
+
     /* Sends post */
     public void sendPost(View view) throws IOException, JSONException {
 
