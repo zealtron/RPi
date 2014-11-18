@@ -1,6 +1,7 @@
 package cs4720furrett.rpimobileproject;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -15,7 +16,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-import android.app.AlertDialog;
 
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpPost;
@@ -31,10 +31,9 @@ import java.io.UnsupportedEncodingException;
 
 public class MainActivity extends Activity implements SensorEventListener {
 
+    final Context context = this;
     //The dialog that pops up
     private AlertDialog alertDialog;
-    final Context context = this;
-
     //Variables to use the accelerometer
     private SensorManager sensorMan;
     private Sensor accelerometer;
@@ -69,8 +68,6 @@ public class MainActivity extends Activity implements SensorEventListener {
                         // FIRE ZE MISSILES!
                     }
                 });
-
-
         alertDialog = builder.create();
     }
 
@@ -99,10 +96,12 @@ public class MainActivity extends Activity implements SensorEventListener {
 
         return super.onOptionsItemSelected(item);
     }
-public void switchToSongList(View view) {
-    Intent intent = new Intent(this, SongList.class);
-    startActivity(intent);
-}
+
+    public void switchToSongList(View view) {
+        Intent intent = new Intent(this, SongList.class);
+        startActivity(intent);
+    }
+
     /* Sends post */
     public void sendPost(View view) throws IOException, JSONException {
 
@@ -118,6 +117,38 @@ public void switchToSongList(View view) {
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        sensorMan.registerListener((android.hardware.SensorEventListener) this, accelerometer, SensorManager.SENSOR_DELAY_UI);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        sensorMan.unregisterListener((android.hardware.SensorEventListener) this);
+    }
+
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+            // Shake detection
+            mGravity = event.values.clone();
+            float x = mGravity[0];
+            float y = mGravity[1];
+            float z = mGravity[2];
+            mAccelLast = mAccelCurrent;
+            mAccelCurrent = FloatMath.sqrt(x * x + y * y + z * z);
+            float delta = mAccelCurrent - mAccelLast;
+            mAccel = mAccel * 0.9f + delta;
+            // Make this higher or lower according to how much
+            // motion you want to detect
+            if (mAccel > 3) {
+                alertDialog.show();
+            }
+        }
     }
 
     private class SendPost extends AsyncTask<String, Void, Void> {
@@ -166,38 +197,6 @@ public void switchToSongList(View view) {
                 e.printStackTrace();
             }
             return null;
-        }
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        sensorMan.registerListener((android.hardware.SensorEventListener) this, accelerometer, SensorManager.SENSOR_DELAY_UI);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        sensorMan.unregisterListener((android.hardware.SensorEventListener) this);
-    }
-
-    @Override
-    public void onSensorChanged(SensorEvent event) {
-        if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
-            // Shake detection
-            mGravity = event.values.clone();
-            float x = mGravity[0];
-            float y = mGravity[1];
-            float z = mGravity[2];
-            mAccelLast = mAccelCurrent;
-            mAccelCurrent = FloatMath.sqrt(x * x + y * y + z * z);
-            float delta = mAccelCurrent - mAccelLast;
-            mAccel = mAccel * 0.9f + delta;
-            // Make this higher or lower according to how much
-            // motion you want to detect
-            if (mAccel > 3) {
-                alertDialog.show();
-            }
         }
     }
 }
