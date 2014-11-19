@@ -22,15 +22,29 @@ import java.util.Random;
 public class GameScreen extends Activity {
 
     private final long SEED = 9001;
+    private final String postURL = "http://10.0.0.60/rpi";
+    private final int speed = 100;
+    //Handles what is returned from the page
+    ResponseHandler responseHandler;
     private ArrayList<Light> lights;
     private MainThread thread;
     private Random rng;
+    private StringBuilder builder;
+    private StringBuilder lightsbuilder;
+    private DefaultHttpClient httpClient;
+    private HttpPost httpPost;
+    private int count = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_screen);
 
+        httpClient = new DefaultHttpClient();
+        httpPost = new HttpPost(postURL);
+        responseHandler = new BasicResponseHandler();
+        builder = new StringBuilder();
+        lightsbuilder = new StringBuilder();
         rng = new Random(SEED);
         lights = new ArrayList<Light>();
         lights.add(new Light(255, 0, 0, -100));
@@ -43,31 +57,36 @@ public class GameScreen extends Activity {
         thread.start();
     }
 
-    public void sendPost(String postURL) {
-        StringBuilder builder = new StringBuilder();
-        builder.append("{\"lights\":\n[");
+    public void sendPost() {
+        builder.delete(0, builder.length());
+        lightsbuilder.delete(0, lightsbuilder.length());
         Iterator<Light> iter = lights.iterator();
+        if (!iter.hasNext()) {
+            return;
+        }
+        builder.append("{\"lights\":\n[");
         while (iter.hasNext()) {
             Light l = iter.next();
             if (l.index >= 0) {
-                builder.append(l.next());
+                lightsbuilder.append(l.next());
                 if (l.done) {
                     iter.remove();
                 }
                 if (!iter.hasNext()) {
                     break;
                 }
-                builder.append(",");
+                lightsbuilder.append(",");
             }
         }
+        String lightstr = lightsbuilder.toString();
+
+        if (lightstr.compareTo("") == 0)
+            return;
+        builder.append(lightstr);
         builder.append("],\n\"propagate\":false}");
         String json = builder.toString();
-        System.out.println(json);
+        //clear builder
 
-        DefaultHttpClient httpClient = new DefaultHttpClient();
-
-        //make connection to path
-        HttpPost httpPost = new HttpPost(postURL);
 
         //json object to be sent
         JSONObject holder = null;
@@ -89,8 +108,7 @@ public class GameScreen extends Activity {
         httpPost.setHeader("Accept", "application/json");
         httpPost.setHeader("Content-type", "application/json");
 
-        //Handles what is returned from the page
-        ResponseHandler responseHandler = new BasicResponseHandler();
+
         try {
             httpClient.execute(httpPost, responseHandler);
         } catch (IOException e) {
@@ -98,7 +116,6 @@ public class GameScreen extends Activity {
         }
 
     }
-
 
     public class Light {
         public int red;
@@ -156,34 +173,25 @@ public class GameScreen extends Activity {
 
         @Override
         public void run() {
-            int count = 0;
-            int modval = 10000;
 
+            long startTime, endTime;
             while (running) {
-
-
-                long startTime = System.currentTimeMillis();
-
+                startTime = System.currentTimeMillis();
                 if (Math.random() > .9) {
-                    int red = rng.nextInt(11) * 25;
-                    int blue = rng.nextInt(11) * 25;
-                    int green = rng.nextInt(11) * 25;
-                    Light l = new Light(red, green, blue);
-
-                    lights.add(l);
+                    lights.add(new Light(rng.nextInt(11) * 25, rng.nextInt(11) * 25, rng.nextInt(11) * 25));
                 }
-                String postURL = "http://10.0.0.60/rpi";
-                sendPost(postURL);
-                long endTime = System.currentTimeMillis();
+                sendPost();
+                endTime = System.currentTimeMillis();
+
                 try {
-                    Thread.sleep(500 - (endTime - startTime));
+                    Thread.sleep(200 - (endTime - startTime));
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                     break;
                 } catch (IllegalArgumentException e) {
-                    e.printStackTrace();
+                    System.out.print("too slow");
+                    System.out.print(endTime - startTime);
                 }
-
                 count++;
             }
 
