@@ -1,7 +1,6 @@
 package cs4720furrett.rpimobileproject;
 
 import android.app.Activity;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.widget.TextView;
 
@@ -44,6 +43,63 @@ public class GameScreen extends Activity {
         thread.start();
     }
 
+    public void sendPost(String postURL) {
+        StringBuilder builder = new StringBuilder();
+        builder.append("{\"lights\":\n[");
+        Iterator<Light> iter = lights.iterator();
+        while (iter.hasNext()) {
+            Light l = iter.next();
+            if (l.index >= 0) {
+                builder.append(l.next());
+                if (l.done) {
+                    iter.remove();
+                }
+                if (!iter.hasNext()) {
+                    break;
+                }
+                builder.append(",");
+            }
+        }
+        builder.append("],\n\"propagate\":false}");
+        String json = builder.toString();
+        System.out.println(json);
+
+        DefaultHttpClient httpClient = new DefaultHttpClient();
+
+        //make connection to path
+        HttpPost httpPost = new HttpPost(postURL);
+
+        //json object to be sent
+        JSONObject holder = null;
+        try {
+            holder = new JSONObject(json);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        assert holder != null;
+        StringEntity se = null;
+        try {
+            se = new StringEntity(holder.toString());
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        httpPost.setEntity(se);
+        httpPost.setHeader("Accept", "application/json");
+        httpPost.setHeader("Content-type", "application/json");
+
+        //Handles what is returned from the page
+        ResponseHandler responseHandler = new BasicResponseHandler();
+        try {
+            httpClient.execute(httpPost, responseHandler);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
     public class Light {
         public int red;
         public int green;
@@ -79,12 +135,13 @@ public class GameScreen extends Activity {
         public String toString() {
             if (index < 0) {
                 return "";
+            } else {
+                return String.format(
+                        "{\"lightId\": %d,\n" +
+                                "\"red\":%s,\"green\":%s,\"blue\":%d,\n" +
+                                "\"intensity\": 0.5}",
+                        index, red, green, blue);
             }
-            return String.format(
-                    "{\"lightId\": %d,\n" +
-                            "\"red\":%s,\"green\":%s,\"blue\":%d,\n" +
-                            "\"intensity\": 0.5}",
-                    index, red, green, blue);
         }
     }
 
@@ -103,24 +160,30 @@ public class GameScreen extends Activity {
             int modval = 10000;
 
             while (running) {
-                try {
-                    Thread.sleep(200);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                    break;
-                }
 
-                System.out.println(count);
+
+                long startTime = System.currentTimeMillis();
+
                 if (Math.random() > .9) {
                     int red = rng.nextInt(11) * 25;
                     int blue = rng.nextInt(11) * 25;
                     int green = rng.nextInt(11) * 25;
                     Light l = new Light(red, green, blue);
-                    System.out.println(l);
+
                     lights.add(l);
                 }
                 String postURL = "http://10.0.0.60/rpi";
-                new SendPost().execute(postURL);
+                sendPost(postURL);
+                long endTime = System.currentTimeMillis();
+                try {
+                    Thread.sleep(500 - (endTime - startTime));
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                    break;
+                } catch (IllegalArgumentException e) {
+                    e.printStackTrace();
+                }
+
                 count++;
             }
 
@@ -128,57 +191,5 @@ public class GameScreen extends Activity {
             // render state to the screen
         }
     }
-
-    private class SendPost extends AsyncTask<String, Void, Void> {
-        @Override
-        protected Void doInBackground(String... params) {
-            String postURL = params[0];
-            StringBuilder builder = new StringBuilder();
-            builder.append("{\"lights\":\n[");
-            Iterator<Light> iter = lights.iterator();
-            while (iter.hasNext()) {
-                builder.append(iter.next().next());
-                if (!iter.hasNext()) {
-                    break;
-                }
-                builder.append(",");
-            }
-            builder.append("],\n\"propagate\":");
-            builder.append("false}");
-            String json = builder.toString();
-            DefaultHttpClient httpClient = new DefaultHttpClient();
-
-            //make connection to path
-            HttpPost httpPost = new HttpPost(postURL);
-
-            //json object to be sent
-            JSONObject holder = null;
-            try {
-                holder = new JSONObject(json);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-            assert holder != null;
-            StringEntity se = null;
-            try {
-                se = new StringEntity(holder.toString());
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            }
-
-            httpPost.setEntity(se);
-            httpPost.setHeader("Accept", "application/json");
-            httpPost.setHeader("Content-type", "application/json");
-
-            //Handles what is returned from the page
-            ResponseHandler responseHandler = new BasicResponseHandler();
-            try {
-                httpClient.execute(httpPost, responseHandler);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-    }
 }
+//}
