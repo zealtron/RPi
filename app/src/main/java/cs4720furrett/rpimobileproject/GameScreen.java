@@ -1,6 +1,7 @@
 package cs4720furrett.rpimobileproject;
 
 import android.app.Activity;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.widget.TextView;
 
@@ -33,6 +34,7 @@ public class GameScreen extends Activity {
 
         rng = new Random(SEED);
         lights = new ArrayList<Light>();
+        lights.add(new Light(255, 0, 0, -100));
         String data = getIntent().getExtras().getString("CLICKED_SONG");
         System.out.println(data);
         TextView mTextView = (TextView) findViewById(R.id.fullscreen_content);
@@ -57,6 +59,14 @@ public class GameScreen extends Activity {
             done = false;
         }
 
+        public Light(int r, int g, int b, int i) {
+            red = r;
+            green = g;
+            blue = b;
+            index = i;
+            done = false;
+        }
+
         public String next() {
             String s = toString();
             index++;
@@ -67,6 +77,9 @@ public class GameScreen extends Activity {
         }
 
         public String toString() {
+            if (index < 0) {
+                return "";
+            }
             return String.format(
                     "{\"lightId\": %d,\n" +
                             "\"red\":%s,\"green\":%s,\"blue\":%d,\n" +
@@ -74,6 +87,7 @@ public class GameScreen extends Activity {
                     index, red, green, blue);
         }
     }
+
     public class MainThread extends Thread {
 
         // flag to hold game state
@@ -86,27 +100,39 @@ public class GameScreen extends Activity {
         @Override
         public void run() {
             int count = 0;
-            while (running) {
-                if (count % 1000 == 0) {
-                    if (Math.random() > .9) {
-                        int red = rng.nextInt(11) * 25;
-                        int blue = rng.nextInt(11) * 25;
-                        int green = rng.nextInt(11) * 25;
-                        Light l = new Light(red, green, blue);
-                        System.out.println(l);
-                        lights.add(l);
-                    }
-                    sendPost("http://10.0.0.60/rpi");
-                }
-                count++;
-                System.out.println("Sent");
-                // update game state
-                // render state to the screen
-            }
-        }
+            int modval = 10000;
 
-        public void sendPost(String postURL) {
-            System.out.println("Start");
+            while (running) {
+                try {
+                    Thread.sleep(200);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                    break;
+                }
+
+                System.out.println(count);
+                if (Math.random() > .9) {
+                    int red = rng.nextInt(11) * 25;
+                    int blue = rng.nextInt(11) * 25;
+                    int green = rng.nextInt(11) * 25;
+                    Light l = new Light(red, green, blue);
+                    System.out.println(l);
+                    lights.add(l);
+                }
+                String postURL = "http://10.0.0.60/rpi";
+                new SendPost().execute(postURL);
+                count++;
+            }
+
+            // update game state
+            // render state to the screen
+        }
+    }
+
+    private class SendPost extends AsyncTask<String, Void, Void> {
+        @Override
+        protected Void doInBackground(String... params) {
+            String postURL = params[0];
             StringBuilder builder = new StringBuilder();
             builder.append("{\"lights\":\n[");
             Iterator<Light> iter = lights.iterator();
@@ -152,7 +178,7 @@ public class GameScreen extends Activity {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            return null;
         }
     }
-
 }
