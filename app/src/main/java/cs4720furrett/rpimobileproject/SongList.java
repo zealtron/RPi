@@ -39,11 +39,8 @@ public class SongList extends Activity {
         // Add more planets. If you passed a String[] instead of a List<String>
         // into the ArrayAdapter constructor, you must not add more items.
         // Otherwise an exception will occur.
-        listAdapter.add("Ceres");
-        listAdapter.add("Pluto");
-        listAdapter.add("Haumea");
-        listAdapter.add("Makemake");
-        listAdapter.add("Eris");
+        //listAdapter.add("Ceres");
+
 
         // Set the ArrayAdapter as the ListView's adapter.
         mainListView.setAdapter(listAdapter);

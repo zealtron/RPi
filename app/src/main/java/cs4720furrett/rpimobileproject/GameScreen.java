@@ -13,7 +13,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
@@ -34,6 +37,7 @@ public class GameScreen extends Activity {
     private DefaultHttpClient httpClient;
     private HttpPost httpPost;
     private int count = 0;
+    private java.lang.String songFilename = "songs.json";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +56,10 @@ public class GameScreen extends Activity {
         System.out.println(data);
         TextView mTextView = (TextView) findViewById(R.id.fullscreen_content);
         mTextView.setText(data);
+
+        String songsInJSON = loadJSONFromAsset();
+        System.out.println(songsInJSON);
+
         thread = new MainThread();
         thread.setRunning(true);
         thread.start();
@@ -116,7 +124,29 @@ public class GameScreen extends Activity {
         }
 
     }
+    public String loadJSONFromAsset() {
+        String json = null;
+        try {
+            InputStream is = getAssets().open(songFilename);
 
+            int size = is.available();
+
+            byte[] buffer = new byte[size];
+
+            is.read(buffer);
+
+            is.close();
+
+            json = new String(buffer, "UTF-8");
+            json = json.replaceAll("[^\\x20-\\x7e]", "");
+
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+        return json;
+    }
     public class Light {
         public int red;
         public int green;

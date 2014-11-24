@@ -1,0 +1,26 @@
+﻿{
+    "songs": {
+        "Mercury": [
+            {
+                "index": 0,
+                "color": "green"
+            },
+            {
+                "index": 10,
+                "color": "red"
+            },
+            {
+                "index": 20,
+                "color": "blue"
+            },
+            {
+                "index": 30,
+                "color": "green"
+            },
+            {
+                "index": 40,
+                "color": "red"
+            }
+        ]
+    }
+}
