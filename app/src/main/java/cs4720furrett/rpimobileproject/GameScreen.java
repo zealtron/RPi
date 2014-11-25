@@ -2,6 +2,7 @@ package cs4720furrett.rpimobileproject;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -23,12 +24,15 @@ import java.util.Iterator;
 import java.util.Random;
 import java.util.Vector;
 
+import javax.xml.transform.Result;
+
 
 public class GameScreen extends Activity {
 
     private final long SEED = 9001;
-    private final String postURL = "http://192.168.2.14/rpi";
+    private String postURL = "http://192.168.2.14/rpi";
     private final int speed = 100;
+    private GameScreen game;
     //Handles what is returned from the page
     ResponseHandler responseHandler;
     private ArrayList<Light> lights = new ArrayList<Light>();
@@ -51,7 +55,7 @@ public class GameScreen extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_screen);
-
+        game = this;
         httpClient = new DefaultHttpClient();
         httpPost = new HttpPost(postURL);
         responseHandler = new BasicResponseHandler();
@@ -60,6 +64,12 @@ public class GameScreen extends Activity {
         rng = new Random(SEED);
         lights.add(new Light(255, 0, 0, -100));
         String data = getIntent().getExtras().getString("CLICKED_SONG");
+        SharedPreferences pref = getSharedPreferences("preferences", MODE_PRIVATE);
+        String storedUrl = pref.getString("url", null);
+        if(storedUrl != null){
+            postURL = pref.getString("url", "no url defined");
+            System.out.println(postURL);
+        }
         String debug = getIntent().getExtras().getString("DEBUG");
         System.out.println(data);
         System.out.println(debug);
@@ -147,6 +157,7 @@ public class GameScreen extends Activity {
                 if (l.done) {
                     iter.remove();
                 }
+
             }
         }
         //Create the JSON
@@ -281,6 +292,14 @@ public class GameScreen extends Activity {
             long startTime, endTime;
             while (running) {
                 startTime = System.currentTimeMillis();
+                if(lights.size() == 0){
+                    Intent intent = new Intent(game, ResultsScreen.class);
+                    intent.putExtra("SONG_NAME", getIntent().getExtras().getString("CLICKED_SONG"));
+                    startActivity(intent);
+                    finish();
+                    setRunning(false);
+                }
+
                 sendPost();
                 endTime = System.currentTimeMillis();
 

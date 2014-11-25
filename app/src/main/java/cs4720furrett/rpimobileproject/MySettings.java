@@ -2,6 +2,7 @@ package cs4720furrett.rpimobileproject;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -54,8 +55,11 @@ public class MySettings extends Activity {
     }
 
     public void setURL(View view) {
-        EditText urlView = (EditText)findViewById(R.id.editText);
-        url = urlView.getText().toString();
+//        EditText urlView = (EditText)findViewById(R.id.editText);
+//        url = urlView.getText().toString();
+        SharedPreferences.Editor editor = getSharedPreferences("preferences", MODE_PRIVATE).edit();
+        editor.putString("url", url);
+        editor.commit();
     }
 }
 

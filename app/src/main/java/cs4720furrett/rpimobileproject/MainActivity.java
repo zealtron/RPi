@@ -42,6 +42,8 @@ public class MainActivity extends Activity implements SensorEventListener {
     private float mAccelCurrent;
     private float mAccelLast;
 
+    public String url = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,6 +99,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 
     public void switchToSongList(View view) {
         Intent intent = new Intent(this, SongList.class);
+        intent.putExtra("url", url);
         startActivity(intent);
         finish();
     }

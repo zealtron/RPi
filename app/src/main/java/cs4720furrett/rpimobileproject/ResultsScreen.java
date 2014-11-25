@@ -13,12 +13,14 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 public class ResultsScreen extends Activity{
+    private String name = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_results_screen);
-        getActionBar().setTitle("Results");
+        name = getIntent().getExtras().getString("SONG_NAME");
+        getActionBar().setTitle("Results of " + name);
     }
 
     @Override
@@ -28,6 +30,13 @@ public class ResultsScreen extends Activity{
 
     public void switchToSongList(View view) {
         Intent intent = new Intent(this, SongList.class);
+        startActivity(intent);
+        finish();
+    }
+
+    public void Retry(View view) {
+        Intent intent = new Intent(this, GameScreen.class);
+        intent.putExtra("CLICKED_SONG", name);
         startActivity(intent);
         finish();
     }

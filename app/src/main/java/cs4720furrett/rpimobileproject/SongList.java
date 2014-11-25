@@ -19,12 +19,12 @@ import java.util.Arrays;
 
 public class SongList extends Activity {
     final Context context = this;
+    public String url = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_song_list);
-
 
         ListView mainListView = (ListView) findViewById(R.id.list);
 
