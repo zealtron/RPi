@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -54,6 +55,8 @@ public class SongList extends Activity {
                 TextView clickedView = (TextView) view;
                 Intent intent = new Intent(context, GameScreen.class);
                 intent.putExtra("CLICKED_SONG", clickedView.getText());
+                ToggleButton debugButton = (ToggleButton) findViewById(R.id.debugToggle);
+                intent.putExtra("DEBUG", debugButton.getText());
                 startActivity(intent);
                 finish();
                 //Toast.makeText(SongList.this, "Item with id [" + id + "] - Position [" + position + "] - Planet [" + clickedView.getText() + "]", Toast.LENGTH_SHORT).show();

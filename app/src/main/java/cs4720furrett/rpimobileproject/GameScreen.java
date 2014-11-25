@@ -67,7 +67,10 @@ public class GameScreen extends Activity {
             postURL = pref.getString("url", "no url defined");
             System.out.println(postURL);
         }
+        String debug = getIntent().getExtras().getString("DEBUG");
         System.out.println(data);
+        System.out.println(debug);
+        if (debug.compareTo("ON") == 0) { notDebug = false; }
         TextView mTextView = (TextView) findViewById(R.id.fullscreen_content);
         mTextView.setText(data);
 
