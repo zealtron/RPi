@@ -9,17 +9,17 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
+import java.util.Vector;
 
 
 public class GameScreen extends Activity {
@@ -29,7 +29,7 @@ public class GameScreen extends Activity {
     private final int speed = 100;
     //Handles what is returned from the page
     ResponseHandler responseHandler;
-    private ArrayList<Light> lights;
+    private Vector<Light> lights;
     private MainThread thread;
     private Random rng;
     private StringBuilder builder;
@@ -50,7 +50,7 @@ public class GameScreen extends Activity {
         builder = new StringBuilder();
         lightsbuilder = new StringBuilder();
         rng = new Random(SEED);
-        lights = new ArrayList<Light>();
+        lights = new Vector<Light>();
         lights.add(new Light(255, 0, 0, -100));
         String data = getIntent().getExtras().getString("CLICKED_SONG");
         System.out.println(data);
@@ -58,8 +58,42 @@ public class GameScreen extends Activity {
         mTextView.setText(data);
 
         String songsInJSON = loadJSONFromAsset();
+        System.out.println("songJSON");
         System.out.println(songsInJSON);
+        System.out.println("done");
+        try {
+            JSONObject j = new JSONObject(songsInJSON);
+            System.out.println(j.toString());
+            JSONArray song = j.getJSONArray(data);
+            System.out.println(song.toString());
+            for(int x = 0; x < song.length(); x++) {
+                JSONObject light_data = song.getJSONObject(x);
+                System.out.println(light_data.toString());
+                int index = light_data.getInt("index")*-1 - 32;
+                String color = light_data.getString("color");
+                System.out.println("\t"+index+"\t"+ color);
+                Light light;
+                if(color.compareTo("red") == 0){
+                    System.out.println("red");
+                    light = new Light(255, 0 , 0, index);
+                }
+                else if(color.compareTo("green") == 0){
+                    System.out.println("green");
+                    light = new Light(0, 255 , 0, index);
+                }
+                else {
+                    System.out.println("blue");
+                    light = new Light(0, 0 , 255, index);
+                }
 
+                System.out.println(light.toString());
+                lights.add(light);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println(lights.toString());
         thread = new MainThread();
         thread.setRunning(true);
         thread.start();
@@ -75,8 +109,10 @@ public class GameScreen extends Activity {
         builder.append("{\"lights\":\n[");
         while (iter.hasNext()) {
             Light l = iter.next();
-            if (l.index >= 0) {
-                lightsbuilder.append(l.next());
+            System.out.println(l.toString());
+            String lightString = l.next();
+            if (l.index > 0) {
+                lightsbuilder.append(lightString);
                 if (l.done) {
                     iter.remove();
                 }
@@ -90,6 +126,7 @@ public class GameScreen extends Activity {
 
         if (lightstr.compareTo("") == 0)
             return;
+        System.out.println(lightstr);
         builder.append(lightstr);
         builder.append("],\n\"propagate\":false}");
         String json = builder.toString();
@@ -128,13 +165,9 @@ public class GameScreen extends Activity {
         String json = null;
         try {
             InputStream is = getAssets().open(songFilename);
-
             int size = is.available();
-
             byte[] buffer = new byte[size];
-
             is.read(buffer);
-
             is.close();
 
             json = new String(buffer, "UTF-8");
@@ -203,14 +236,15 @@ public class GameScreen extends Activity {
 
         @Override
         public void run() {
-
+            System.out.println("run: "+lights.toString());
             long startTime, endTime;
             while (running) {
                 startTime = System.currentTimeMillis();
-                if (Math.random() > .9) {
+                if (Math.random() > 2) {
                     lights.add(new Light(rng.nextInt(11) * 25, rng.nextInt(11) * 25, rng.nextInt(11) * 25));
                 }
                 sendPost();
+                System.out.println(count);
                 endTime = System.currentTimeMillis();
 
                 try {

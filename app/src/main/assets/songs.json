@@ -1,6 +1,5 @@
 ﻿{
-    "songs": {
-        "Mercury": [
+    "Mercury": [
             {
                 "index": 0,
                 "color": "green"
@@ -21,6 +20,5 @@
                 "index": 40,
                 "color": "red"
             }
-        ]
-    }
+    ]
 }
