@@ -1,24 +1,113 @@
 ﻿{
-    "Mercury": [
-            {
-                "index": 0,
-                "color": "blue"
-            },
-            {
-                "index": 10,
-                "color": "blue"
-            },
-            {
-                "index": 20,
-                "color": "blue"
-            },
-            {
-                "index": 30,
-                "color": "blue"
-            },
-            {
-                "index": 40,
-                "color": "blue"
-            }
-    ]
+	"Neptune": [{
+		"index": 0,
+		"color": "blue"
+	},
+	{
+		"index": 10,
+		"color": "blue"
+	},
+	{
+		"index": 20,
+		"color": "blue"
+	},
+	{
+		"index": 30,
+		"color": "blue"
+	},
+	{
+		"index": 40,
+		"color": "blue"
+	}],
+	"Earth": [{
+		"index": 0,
+		"color": "blue"
+	},
+	{
+		"index": 10,
+		"color": "blue"
+	},
+	{
+		"index": 20,
+		"color": "blue"
+	},
+	{
+		"index": 30,
+		"color": "blue"
+	},
+	{
+		"index": 40,
+		"color": "blue"
+	},
+	{
+		"index": 50,
+		"color": "blue"
+	},
+	{
+		"index": 60,
+		"color": "blue"
+	},
+	{
+		"index": 60,
+		"color": "blue"
+	},
+	{
+		"index": 70,
+		"color": "blue"
+	},
+	{
+		"index": 80,
+		"color": "green"
+	},
+	{
+		"index": 90,
+		"color": "green"
+	},
+	{
+		"index": 100,
+		"color": "green"
+	}],
+	"Mars": [{
+		"index": 0,
+		"color": "red"
+	},
+	{
+		"index": 10,
+		"color": "red"
+	},
+	{
+		"index": 20,
+		"color": "red"
+	},
+	{
+		"index": 30,
+		"color": "red"
+	},
+	{
+		"index": 40,
+		"color": "red"
+	}{
+		"index": 50,
+		"color": "red"
+	},
+	{
+		"index": 60,
+		"color": "red"
+	},
+	{
+		"index": 70,
+		"color": "red"
+	},
+	{
+		"index": 80,
+		"color": "red"
+	},
+	{
+		"index": 90,
+		"color": "red"
+	},
+	{
+		"index": 100,
+		"color": "red"
+	}]
 }

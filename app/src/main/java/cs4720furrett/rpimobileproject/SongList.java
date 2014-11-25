@@ -29,8 +29,7 @@ public class SongList extends Activity {
         ListView mainListView = (ListView) findViewById(R.id.list);
 
         // Create and populate a List of planet names.
-        String[] planets = new String[]{"Mercury", "Venus", "Earth", "Mars",
-                "Jupiter", "Saturn", "Uranus", "Neptune"};
+        String[] planets = new String[]{"Earth", "Mars","Neptune"};
         ArrayList<String> planetList = new ArrayList<String>();
         planetList.addAll(Arrays.asList(planets));
 
