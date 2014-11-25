@@ -158,7 +158,7 @@ public class GameScreen extends Activity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
+        if(notDebug) {
         assert holder != null;
         StringEntity se = null;
         try {
@@ -171,7 +171,6 @@ public class GameScreen extends Activity {
         httpPost.setHeader("Accept", "application/json");
         httpPost.setHeader("Content-type", "application/json");
 
-        if(notDebug) {
             try {
                 httpClient.execute(httpPost, responseHandler);
             } catch (IOException e) {
@@ -267,7 +266,7 @@ public class GameScreen extends Activity {
                 endTime = System.currentTimeMillis();
 
                 try {
-                    Thread.sleep(200 - (endTime - startTime));
+                    this.sleep(200 - (endTime - startTime));
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                     break;
@@ -281,13 +280,13 @@ public class GameScreen extends Activity {
     }
     public void onBtnClicked(View v){
         if(v.getId() == R.id.red){
-           System.out.println("red");
+           System.out.println("clicked: red");
         }
         else if(v.getId() == R.id.green){
-            System.out.println("green");
+            System.out.println("clicked: green");
         }
         else if(v.getId() == R.id.blue){
-            System.out.println("blue");
+            System.out.println("clicked: blue");
         }
     }
 
