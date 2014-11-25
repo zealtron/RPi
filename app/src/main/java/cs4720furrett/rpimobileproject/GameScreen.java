@@ -43,6 +43,9 @@ public class GameScreen extends Activity {
     private Iterator<String> striter;
     private ArrayList<String> elements = new ArrayList<String>();
     private boolean notDebug = true;
+    private long sleepTime = 200;
+    private volatile long valid = 0;
+    private volatile String last_color = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,6 +130,18 @@ public class GameScreen extends Activity {
         while (iter.hasNext()) {
             Light l = iter.next();
             String lightString = l.next();
+            if(l.index == 31) {
+                valid = System.currentTimeMillis() + sleepTime/2;
+                if(l.red == 255) {
+                    last_color = "red";
+                }
+                else if(l.green == 255) {
+                    last_color = "green";
+                }
+                else if(l.blue == 255) {
+                    last_color = "blue";
+                }
+            }
             if (lightString.compareTo("") != 0) {
                 elements.add(lightString);
                 if (l.done) {
@@ -148,7 +163,6 @@ public class GameScreen extends Activity {
 
         //The lights that will be sent
         String lightstr = lightsbuilder.toString();
-        System.out.println(lightstr);
         //If there is nothing, we are done for now
         if (lightstr.compareTo("") == 0)
             return;
@@ -267,20 +281,16 @@ public class GameScreen extends Activity {
             long startTime, endTime;
             while (running) {
                 startTime = System.currentTimeMillis();
-//                if (Math.random() > 2) {
-//                    lights.add(new Light(rng.nextInt(11) * 25, rng.nextInt(11) * 25, rng.nextInt(11) * 25));
-//                }
                 sendPost();
-                System.out.println(count);
                 endTime = System.currentTimeMillis();
 
                 try {
-                    this.sleep(200 - (endTime - startTime));
+                    this.sleep(sleepTime - (endTime - startTime));
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                     break;
                 } catch (IllegalArgumentException e) {
-                    System.out.print("too slow");
+                    System.out.print("too slow: ");
                     System.out.print(endTime - startTime);
                 }
                 count++;
@@ -288,14 +298,17 @@ public class GameScreen extends Activity {
         }
     }
     public void onBtnClicked(View v){
-        if(v.getId() == R.id.red){
-           System.out.println("clicked: red");
-        }
-        else if(v.getId() == R.id.green){
-            System.out.println("clicked: green");
-        }
-        else if(v.getId() == R.id.blue){
-            System.out.println("clicked: blue");
+        long currentTime = System.currentTimeMillis();
+        if(currentTime >= valid && currentTime <= valid + sleepTime/2) {
+            System.out.println("Within time range of a button");
+            System.out.println(last_color + " " + valid + " " + currentTime);
+            if (v.getId() == R.id.red && last_color == "red") {
+                System.out.println("clicked: red");
+            } else if (v.getId() == R.id.green && last_color == "green") {
+                System.out.println("clicked: green");
+            } else if (v.getId() == R.id.blue && last_color == "blue") {
+                System.out.println("clicked: blue");
+            }
         }
     }
 

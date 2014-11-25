@@ -2,11 +2,11 @@
     "Mercury": [
             {
                 "index": 0,
-                "color": "green"
+                "color": "blue"
             },
             {
                 "index": 10,
-                "color": "red"
+                "color": "blue"
             },
             {
                 "index": 20,
@@ -14,11 +14,11 @@
             },
             {
                 "index": 30,
-                "color": "green"
+                "color": "blue"
             },
             {
                 "index": 40,
-                "color": "red"
+                "color": "blue"
             }
     ]
 }
