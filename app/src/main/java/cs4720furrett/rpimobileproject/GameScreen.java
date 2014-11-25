@@ -29,7 +29,7 @@ public class GameScreen extends Activity {
     private final int speed = 100;
     //Handles what is returned from the page
     ResponseHandler responseHandler;
-    private Vector<Light> lights;
+    private ArrayList<Light> lights = new ArrayList<Light>();
     private MainThread thread;
     private Random rng;
     private StringBuilder builder;
@@ -38,6 +38,8 @@ public class GameScreen extends Activity {
     private HttpPost httpPost;
     private int count = 0;
     private java.lang.String songFilename = "songs.json";
+    private Iterator<String> striter;
+    private ArrayList<String> elements = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +52,6 @@ public class GameScreen extends Activity {
         builder = new StringBuilder();
         lightsbuilder = new StringBuilder();
         rng = new Random(SEED);
-        lights = new Vector<Light>();
         lights.add(new Light(255, 0, 0, -100));
         String data = getIntent().getExtras().getString("CLICKED_SONG");
         System.out.println(data);
@@ -100,37 +101,52 @@ public class GameScreen extends Activity {
     }
 
     public void sendPost() {
+        //zero everything
         builder.delete(0, builder.length());
         lightsbuilder.delete(0, lightsbuilder.length());
+        elements.clear();
+        //Create iterator and check for empty list
         Iterator<Light> iter = lights.iterator();
         if (!iter.hasNext()) {
             return;
         }
         builder.append("{\"lights\":\n[");
+
+        //Get all elements that don't print out blanks
         while (iter.hasNext()) {
             Light l = iter.next();
             System.out.println(l.toString());
             String lightString = l.next();
-            if (l.index > 0) {
-                lightsbuilder.append(lightString);
+            if (lightString.compareTo("") != 0) {
+                elements.add(lightString);
                 if (l.done) {
                     iter.remove();
                 }
-                if (!iter.hasNext()) {
-                    break;
-                }
-                lightsbuilder.append(",");
             }
         }
-        String lightstr = lightsbuilder.toString();
+        //Create the JSON
+        striter = elements.iterator();
+        while (iter.hasNext()) {
+            lightsbuilder.append(iter.next());
+            if (!iter.hasNext()) {
+                break;
+            }
+            //only runs if there is another element THAT HAS A VALUE
+            lightsbuilder.append(",");
+        }
+        
 
+        //The lights that will be sent
+        String lightstr = lightsbuilder.toString();
+        //If there is nothing, we are done for now
         if (lightstr.compareTo("") == 0)
             return;
-        System.out.println(lightstr);
+        //add the body
         builder.append(lightstr);
+        //add the end
         builder.append("],\n\"propagate\":false}");
+        //create the JSON string
         String json = builder.toString();
-        //clear builder
 
 
         //json object to be sent
