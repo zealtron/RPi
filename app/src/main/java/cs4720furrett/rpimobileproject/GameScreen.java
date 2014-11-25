@@ -115,7 +115,6 @@ public class GameScreen extends Activity {
         //Get all elements that don't print out blanks
         while (iter.hasNext()) {
             Light l = iter.next();
-            System.out.println(l.toString());
             String lightString = l.next();
             if (lightString.compareTo("") != 0) {
                 elements.add(lightString);
@@ -126,9 +125,9 @@ public class GameScreen extends Activity {
         }
         //Create the JSON
         striter = elements.iterator();
-        while (iter.hasNext()) {
-            lightsbuilder.append(iter.next());
-            if (!iter.hasNext()) {
+        while (striter.hasNext()) {
+            lightsbuilder.append(striter.next());
+            if (!striter.hasNext()) {
                 break;
             }
             //only runs if there is another element THAT HAS A VALUE
@@ -138,6 +137,7 @@ public class GameScreen extends Activity {
 
         //The lights that will be sent
         String lightstr = lightsbuilder.toString();
+        System.out.println(lightstr);
         //If there is nothing, we are done for now
         if (lightstr.compareTo("") == 0)
             return;
