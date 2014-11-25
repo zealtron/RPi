@@ -2,6 +2,7 @@ package cs4720furrett.rpimobileproject;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 import org.apache.http.client.ResponseHandler;
@@ -40,6 +41,7 @@ public class GameScreen extends Activity {
     private java.lang.String songFilename = "songs.json";
     private Iterator<String> striter;
     private ArrayList<String> elements = new ArrayList<String>();
+    private boolean notDebug = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -169,11 +171,12 @@ public class GameScreen extends Activity {
         httpPost.setHeader("Accept", "application/json");
         httpPost.setHeader("Content-type", "application/json");
 
-
-        try {
-            httpClient.execute(httpPost, responseHandler);
-        } catch (IOException e) {
-            e.printStackTrace();
+        if(notDebug) {
+            try {
+                httpClient.execute(httpPost, responseHandler);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
     }
@@ -274,10 +277,19 @@ public class GameScreen extends Activity {
                 }
                 count++;
             }
-
-            // update game state
-            // render state to the screen
         }
     }
+    public void onBtnClicked(View v){
+        if(v.getId() == R.id.red){
+           System.out.println("red");
+        }
+        else if(v.getId() == R.id.green){
+            System.out.println("green");
+        }
+        else if(v.getId() == R.id.blue){
+            System.out.println("blue");
+        }
+    }
+
 }
 //}
