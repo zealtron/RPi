@@ -50,6 +50,10 @@ public class GameScreen extends Activity {
     private long sleepTime = 200;
     private volatile long valid = 0;
     private volatile String last_color = "";
+    private int currentCombo = 0;
+    private int maxCombo = 0;
+    private int score = 0;
+    private boolean noteHit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -140,6 +144,10 @@ public class GameScreen extends Activity {
             Light l = iter.next();
             String lightString = l.next();
             if(l.index == 31) {
+                if (!noteHit) { //if onBtnClicked did not detect a valid note hit on previous note,
+                    currentCombo = 0; //reset combo
+                }
+                noteHit = false; //indicate new note has not been hit yet
                 valid = System.currentTimeMillis() + sleepTime/2;
                 if(l.red == 255) {
                     last_color = "red";
@@ -295,6 +303,8 @@ public class GameScreen extends Activity {
                     Intent intent = new Intent(game, ResultsScreen.class);
                     intent.putExtra("SONG_NAME", getIntent().getExtras().getString("CLICKED_SONG"));
                     intent.putExtra("DEBUG", getIntent().getExtras().getString("DEBUG"));
+                    intent.putExtra("MAX_COMBO", "" + maxCombo);
+                    intent.putExtra("SCORE", "" + score);
                     startActivity(intent);
                     finish();
                     setRunning(false);
@@ -318,7 +328,16 @@ public class GameScreen extends Activity {
     }
     public void onBtnClicked(View v){
         long currentTime = System.currentTimeMillis();
-        if(currentTime >= valid && currentTime <= valid + sleepTime/2) {
+        if(currentTime >= valid && currentTime <= valid + sleepTime/2) { //if note was hit
+
+            noteHit = true; //indicate note was hit
+
+            //handle combo and score
+            currentCombo++;
+            if (currentCombo > maxCombo) maxCombo = currentCombo;
+            score += 100;
+
+            //debug messages
             System.out.println("Within time range of a button");
             System.out.println(last_color + " " + valid + " " + currentTime);
             if (v.getId() == R.id.red && last_color == "red") {

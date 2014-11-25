@@ -9,15 +9,13 @@ import twitter4j.auth.AccessToken;
 
 public class ResultsScreen extends Activity{
     private String name = "";
+    private String score = "";
+    private String maxCombo = "";
 
     public static final String CONSUMER_KEY = "s8vGGyRxStg9xbt53NSKBwgSP";
     public static final String CONSUMER_SECRET= "ehSthJoZ4v0PcfcLM9VrEKSoQOyvfQaUFiZSWZhgwzCrD0Qndj";
     public static final AccessToken ACCESS_TOKEN = new AccessToken("2892540280-cpLMtt0LHg4kYJRQxKf4VznjRfLOWjfePyn6VE4","7fLzIgludIK0t6IsUVgI28vsLIKAGWaUIPgfzqNWZ85WP");
-    public static final String REQUEST_URL = "http://api.twitter.com/oauth/request_token";
-    public static final String ACCESS_URL = "http://api.twitter.com/oauth/access_token";
-    public static final String AUTHORIZE_URL = "http://api.twitter.com/oauth/authorize";
-    final public static String  CALLBACK_SCHEME = "x-latify-oauth-twitter";
-    final public static String  CALLBACK_URL = CALLBACK_SCHEME + "://callback";
+
 
 
 
@@ -26,6 +24,8 @@ public class ResultsScreen extends Activity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_results_screen);
         name = getIntent().getExtras().getString("SONG_NAME");
+        score = getIntent().getExtras().getString("SCORE");
+        maxCombo = getIntent().getExtras().getString("MAX_COMBO");
         getActionBar().setTitle("Results of " + name);
     }
 
@@ -56,7 +56,7 @@ public class ResultsScreen extends Activity{
                 twitter.setOAuthConsumer(CONSUMER_KEY, CONSUMER_SECRET);
                 twitter.setOAuthAccessToken(ACCESS_TOKEN);
                 try {
-                    twitter.updateStatus("Tweet!");
+                    twitter.updateStatus("I just played " + name + " on Pi Pi Revolution! I got a score of " + score + " and a max combo of " + maxCombo + "!");
                 }catch (TwitterException e) {
                     e.printStackTrace();
                 }
