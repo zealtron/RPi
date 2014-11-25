@@ -26,7 +26,7 @@ import java.util.Vector;
 public class GameScreen extends Activity {
 
     private final long SEED = 9001;
-    private final String postURL = "http://10.0.0.60/rpi";
+    private final String postURL = "http://192.168.2.14/rpi";
     private final int speed = 100;
     //Handles what is returned from the page
     ResponseHandler responseHandler;

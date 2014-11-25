@@ -109,15 +109,16 @@ public class MainActivity extends Activity implements SensorEventListener {
     }
 
     /* Sends post */
-    public void sendPost(View view) throws IOException, JSONException {
-
-        //get url from field
-        EditText editText = (EditText) findViewById(R.id.editText);
-        String postURL = editText.getText().toString();
-        if (!postURL.startsWith("http://")) postURL = "http://" + postURL;
-        //String postURL = "http://cs4720.cs.virginia.edu/rpi/?username=csh7kd"; //hard coding for now
-        new SendPost().execute(postURL);
-    }
+    //Changed, moved to settings
+//    public void sendPost(View view) throws IOException, JSONException {
+//
+//        //get url from field
+//        EditText editText = (EditText) findViewById(R.id.editText);
+//        String postURL = editText.getText().toString();
+//        if (!postURL.startsWith("http://")) postURL = "http://" + postURL;
+//        //String postURL = "http://cs4720.cs.virginia.edu/rpi/?username=csh7kd"; //hard coding for now
+//        new SendPost().execute(postURL);
+//    }
 
 
     @Override
@@ -156,53 +157,53 @@ public class MainActivity extends Activity implements SensorEventListener {
             }
         }
     }
-
-    private class SendPost extends AsyncTask<String, Void, Void> {
-        @Override
-        protected Void doInBackground(String... params) {
-            String postURL = params[0];
-            String json = "{\n" +
-                    "\"lights\": [\n" +
-                    "\n" +
-                    "{\"lightId\": 1, \"red\":255,\"green\":0,\"blue\":0, \"intensity\": 0.3}],\n" +
-
-                    "\n" +
-                    "\"propagate\": true\n" +
-                    "}";
-
-            DefaultHttpClient httpClient = new DefaultHttpClient();
-
-            //make connection to path
-            HttpPost httpPost = new HttpPost(postURL);
-
-            //json object to be sent
-            JSONObject holder = null;
-            try {
-                holder = new JSONObject(json);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-            assert holder != null;
-            StringEntity se = null;
-            try {
-                se = new StringEntity(holder.toString());
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            }
-
-            httpPost.setEntity(se);
-            httpPost.setHeader("Accept", "application/json");
-            httpPost.setHeader("Content-type", "application/json");
-
-            //Handles what is returned from the page
-            ResponseHandler responseHandler = new BasicResponseHandler();
-            try {
-                httpClient.execute(httpPost, responseHandler);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-    }
+//Moved to Settings
+//    private class SendPost extends AsyncTask<String, Void, Void> {
+//        @Override
+//        protected Void doInBackground(String... params) {
+//            String postURL = params[0];
+//            String json = "{\n" +
+//                    "\"lights\": [\n" +
+//                    "\n" +
+//                    "{\"lightId\": 1, \"red\":255,\"green\":0,\"blue\":0, \"intensity\": 0.3}],\n" +
+//
+//                    "\n" +
+//                    "\"propagate\": true\n" +
+//                    "}";
+//
+//            DefaultHttpClient httpClient = new DefaultHttpClient();
+//
+//            //make connection to path
+//            HttpPost httpPost = new HttpPost(postURL);
+//
+//            //json object to be sent
+//            JSONObject holder = null;
+//            try {
+//                holder = new JSONObject(json);
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+//
+//            assert holder != null;
+//            StringEntity se = null;
+//            try {
+//                se = new StringEntity(holder.toString());
+//            } catch (UnsupportedEncodingException e) {
+//                e.printStackTrace();
+//            }
+//
+//            httpPost.setEntity(se);
+//            httpPost.setHeader("Accept", "application/json");
+//            httpPost.setHeader("Content-type", "application/json");
+//
+//            //Handles what is returned from the page
+//            ResponseHandler responseHandler = new BasicResponseHandler();
+//            try {
+//                httpClient.execute(httpPost, responseHandler);
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//            return null;
+//        }
+//    }
 }

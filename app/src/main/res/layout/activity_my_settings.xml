@@ -103,6 +103,46 @@
 
         </RelativeLayout>
 
+        <RelativeLayout
+            android:layout_width="500dp"
+            android:layout_height="100dp"
+            android:id="@+id/connectionPanel"
+            android:layout_below="@+id/motionProtectionPanel"
+            android:layout_marginTop="0dp"
+            android:layout_centerHorizontal="true">
+
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Set"
+                android:id="@+id/set_button"
+                android:layout_alignTop="@+id/editText"
+                android:layout_marginTop="35dp"
+                android:onClick="setURL"
+                android:clickable="false" />
+
+            <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/editText"
+                android:layout_alignLeft="@+id/set_button"
+                android:layout_alignStart="@+id/set_button"
+                android:layout_marginBottom="44dp"
+                android:layout_below="@+id/urlLabel"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Enter URL of RPi below"
+                android:id="@+id/urlLabel"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginLeft="0dp" />
+
+        </RelativeLayout>
+
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

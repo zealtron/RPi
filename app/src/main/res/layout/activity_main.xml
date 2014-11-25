@@ -15,34 +15,6 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Post"
-        android:id="@+id/post_button"
-        android:layout_alignTop="@+id/editText"
-        android:layout_marginTop="35dp"
-        android:onClick="sendPost" />
-
-    <EditText
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/editText"
-        android:layout_alignLeft="@+id/post_button"
-        android:layout_alignStart="@+id/post_button"
-        android:layout_marginBottom="44dp"
-        android:layout_below="@+id/urlLabel"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Enter URL to post to below"
-        android:id="@+id/urlLabel"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="38dp" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:text="Play"
         android:height="55dp"
         android:width="180dp"

@@ -6,9 +6,11 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 
 
 public class MySettings extends Activity {
+    public String url;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +44,11 @@ public class MySettings extends Activity {
     public void done(View view) {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
+    }
+
+    public void setURL(View view) {
+        EditText urlview = (EditText)findViewById(R.id.editText);
+        url = urlview.getText().toString();
     }
 }
 
