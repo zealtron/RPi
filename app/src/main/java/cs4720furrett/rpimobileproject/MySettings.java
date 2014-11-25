@@ -10,7 +10,7 @@ import android.widget.EditText;
 
 
 public class MySettings extends Activity {
-    public String url;
+    public String url = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,8 +47,8 @@ public class MySettings extends Activity {
     }
 
     public void setURL(View view) {
-        EditText urlview = (EditText)findViewById(R.id.editText);
-        url = urlview.getText().toString();
+        EditText urlView = (EditText)findViewById(R.id.editText);
+        url = urlView.getText().toString();
     }
 }
 

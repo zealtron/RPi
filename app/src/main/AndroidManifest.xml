@@ -38,6 +38,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="cs4720furrett.rpimobileproject.SongList" />
         </activity>
+        <activity
+            android:name="cs4720furrett.rpimobileproject.ResultsScreen"
+            android:label="ResultsScreen">
+        </activity>
     </application>
 
 </manifest>

@@ -1,6 +1,7 @@
 package cs4720furrett.rpimobileproject;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -258,9 +259,9 @@ public class GameScreen extends Activity {
             long startTime, endTime;
             while (running) {
                 startTime = System.currentTimeMillis();
-                if (Math.random() > 2) {
-                    lights.add(new Light(rng.nextInt(11) * 25, rng.nextInt(11) * 25, rng.nextInt(11) * 25));
-                }
+//                if (Math.random() > 2) {
+//                    lights.add(new Light(rng.nextInt(11) * 25, rng.nextInt(11) * 25, rng.nextInt(11) * 25));
+//                }
                 sendPost();
                 System.out.println(count);
                 endTime = System.currentTimeMillis();
