@@ -103,6 +103,11 @@ public class GameScreen extends Activity {
         thread.start();
     }
 
+    @Override
+    public void onBackPressed()
+    {
+    }
+
     public void sendPost() {
         //zero everything
         builder.delete(0, builder.length());

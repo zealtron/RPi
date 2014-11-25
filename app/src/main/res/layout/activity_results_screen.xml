@@ -4,14 +4,6 @@
     android:layout_height="match_parent"
     android:weightSum="1">
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Results"
-        android:id="@+id/textView"
-        android:layout_gravity="center_horizontal" />
-
     <ListView
         android:layout_width="822dp"
         android:layout_height="333dp"
@@ -19,30 +11,35 @@
         android:layout_gravity="center_horizontal" />
 
 
-    <LinearLayout
+
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/buttonPanel"
+        android:layout_gravity="center_horizontal">
         android:layout_below="@+id/listView"
-        android:layout_marginTop="25dp"
-        android:layout_centerHorizontal="true">
 
-        <Button
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="New Button"
-            android:id="@+id/button2"
-            android:layout_marginLeft="5dp"
-            android:layout_gravity="right" />
+            android:id="@+id/buttonPanel"
+            android:layout_centerHorizontal="true">
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="New Button"
-            android:layout_marginLeft="720dp"
-            android:id="@+id/button" />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Back to Song List"
+                android:id="@+id/button2" />
 
-    </LinearLayout>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Retry"
+                android:id="@+id/button" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
 
 
 

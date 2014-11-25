@@ -18,6 +18,17 @@ public class ResultsScreen extends Activity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_results_screen);
+        getActionBar().setTitle("Results");
     }
 
+    @Override
+    public void onBackPressed()
+    {
+    }
+
+    public void switchToSongList(View view) {
+        Intent intent = new Intent(this, SongList.class);
+        startActivity(intent);
+        finish();
+    }
 }

@@ -100,12 +100,13 @@ public class MainActivity extends Activity implements SensorEventListener {
     public void switchToSongList(View view) {
         Intent intent = new Intent(this, SongList.class);
         startActivity(intent);
+        finish();
     }
 
     public void switchToSettings(View view) {
         Intent intent = new Intent(this, MySettings.class);
-
         startActivity(intent);
+        finish();
     }
 
     /* Sends post */
@@ -136,6 +137,11 @@ public class MainActivity extends Activity implements SensorEventListener {
     protected void onPause() {
         super.onPause();
         sensorMan.unregisterListener((android.hardware.SensorEventListener) this);
+    }
+
+    @Override
+    public void onBackPressed()
+    {
     }
 
     @Override

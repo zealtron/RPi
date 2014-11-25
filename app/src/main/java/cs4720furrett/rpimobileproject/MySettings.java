@@ -16,6 +16,7 @@ public class MySettings extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_settings);
+        getActionBar().setTitle("Settings");
     }
 
 
@@ -44,6 +45,12 @@ public class MySettings extends Activity {
     public void done(View view) {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
+        finish();
+    }
+
+    @Override
+    public void onBackPressed()
+    {
     }
 
     public void setURL(View view) {

@@ -55,6 +55,7 @@ public class SongList extends Activity {
                 Intent intent = new Intent(context, GameScreen.class);
                 intent.putExtra("CLICKED_SONG", clickedView.getText());
                 startActivity(intent);
+                finish();
                 //Toast.makeText(SongList.this, "Item with id [" + id + "] - Position [" + position + "] - Planet [" + clickedView.getText() + "]", Toast.LENGTH_SHORT).show();
 
             }
@@ -67,6 +68,17 @@ public class SongList extends Activity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_song_list, menu);
         return true;
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+    }
+
+    public void switchToMainMenu(View view) {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     @Override
