@@ -62,7 +62,6 @@ public class GameScreen extends Activity {
         builder = new StringBuilder();
         lightsbuilder = new StringBuilder();
         rng = new Random(SEED);
-        lights.add(new Light(255, 0, 0, -100));
         String data = getIntent().getExtras().getString("CLICKED_SONG");
         SharedPreferences pref = getSharedPreferences("preferences", MODE_PRIVATE);
         String storedUrl = pref.getString("url", null);
