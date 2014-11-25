@@ -295,6 +295,7 @@ public class GameScreen extends Activity {
                 if(lights.size() == 0){
                     Intent intent = new Intent(game, ResultsScreen.class);
                     intent.putExtra("SONG_NAME", getIntent().getExtras().getString("CLICKED_SONG"));
+                    intent.putExtra("DEBUG", getIntent().getExtras().getString("DEBUG"));
                     startActivity(intent);
                     finish();
                     setRunning(false);
