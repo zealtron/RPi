@@ -57,7 +57,10 @@ public class GameScreen extends Activity {
         rng = new Random(SEED);
         lights.add(new Light(255, 0, 0, -100));
         String data = getIntent().getExtras().getString("CLICKED_SONG");
+        String debug = getIntent().getExtras().getString("DEBUG");
         System.out.println(data);
+        System.out.println(debug);
+        if (debug.compareTo("ON") == 0) { notDebug = false; }
         TextView mTextView = (TextView) findViewById(R.id.fullscreen_content);
         mTextView.setText(data);
 

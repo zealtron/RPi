@@ -55,8 +55,6 @@ public class MainActivity extends Activity implements SensorEventListener {
         mAccelLast = SensorManager.GRAVITY_EARTH;
         sensorMan.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_UI);
         buildDialog();
-
-
     }
 
     public void buildDialog() {
