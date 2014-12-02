@@ -148,6 +148,7 @@ public class GameScreen extends Activity {
                 if (!noteHit) { //if onBtnClicked did not detect a valid note hit on previous note,
                     currentCombo = 0; //reset combo
                     life -= 10;
+                    updateValuesInLayout();
                 }
                 noteHit = false; //indicate new note has not been hit yet
                 valid = System.currentTimeMillis() + sleepTime/2;
@@ -330,6 +331,14 @@ public class GameScreen extends Activity {
             }
         }
     }
+
+    public void updateValuesInLayout() {
+        TextView comboView = (TextView) findViewById(R.id.combo);
+        comboView.setText("" + currentCombo);
+        TextView lifeView = (TextView) findViewById(R.id.life);
+        lifeView.setText("" + life);
+    }
+
     public void onBtnClicked(View v){
         long currentTime = System.currentTimeMillis();
         if(currentTime >= valid && currentTime <= valid + sleepTime/2) { //if note was hit
@@ -357,11 +366,7 @@ public class GameScreen extends Activity {
             life += multiplier;
             if (life > 100) life = 100;
 
-            //update layout
-            TextView comboView = (TextView) findViewById(R.id.combo);
-            comboView.setText("" + currentCombo);
-            TextView lifeView = (TextView) findViewById(R.id.life);
-            lifeView.setText("" + life);
+            updateValuesInLayout();
 
             //debug messages
             System.out.println("Within time range of a button");
