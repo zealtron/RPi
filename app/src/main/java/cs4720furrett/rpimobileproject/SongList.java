@@ -3,6 +3,7 @@ package cs4720furrett.rpimobileproject;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -52,10 +53,11 @@ public class SongList extends Activity {
 
                 // We know the View is a TextView so we can cast it
                 TextView clickedView = (TextView) view;
+                SharedPreferences.Editor editor = getSharedPreferences("preferences", MODE_PRIVATE).edit();
+                editor.putString("CLICKED_SONG", (String) clickedView.getText());
+                editor.commit();
+
                 Intent intent = new Intent(context, GameScreen.class);
-                intent.putExtra("CLICKED_SONG", clickedView.getText());
-                ToggleButton debugButton = (ToggleButton) findViewById(R.id.debugToggle);
-                intent.putExtra("DEBUG", debugButton.getText());
                 startActivity(intent);
                 finish();
                 //Toast.makeText(SongList.this, "Item with id [" + id + "] - Position [" + position + "] - Planet [" + clickedView.getText() + "]", Toast.LENGTH_SHORT).show();

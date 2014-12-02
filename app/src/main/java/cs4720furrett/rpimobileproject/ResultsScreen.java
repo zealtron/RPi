@@ -2,6 +2,7 @@ package cs4720furrett.rpimobileproject;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import twitter4j.*;
@@ -23,7 +24,9 @@ public class ResultsScreen extends Activity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_results_screen);
-        name = getIntent().getExtras().getString("SONG_NAME");
+        SharedPreferences pref = getSharedPreferences("preferences", MODE_PRIVATE);
+
+        name = pref.getString("CLICKED_SONG", "No song");
         score = getIntent().getExtras().getString("SCORE");
         maxCombo = getIntent().getExtras().getString("MAX_COMBO");
         getActionBar().setTitle("Results of " + name);
@@ -42,8 +45,6 @@ public class ResultsScreen extends Activity{
 
     public void Retry(View view) {
         Intent intent = new Intent(this, GameScreen.class);
-        intent.putExtra("CLICKED_SONG", name);
-        intent.putExtra("DEBUG", getIntent().getExtras().getString("DEBUG"));
         startActivity(intent);
         finish();
     }

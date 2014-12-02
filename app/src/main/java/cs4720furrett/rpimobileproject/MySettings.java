@@ -8,16 +8,55 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.SeekBar;
+import android.widget.ToggleButton;
 
 
 public class MySettings extends Activity {
-    public String url = "";
+    private SharedPreferences pref;
+    private SharedPreferences.Editor editor;
+    private String url = "";
+    private ToggleButton toggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        pref = getSharedPreferences("preferences", MODE_PRIVATE);
+        editor = pref.edit();
         setContentView(R.layout.activity_my_settings);
         getActionBar().setTitle("Settings");
+
+        toggle = (ToggleButton) findViewById(R.id.debugToggle);
+        String debug = pref.getString("DEBUG", "OFF");
+        toggle.setText(debug);
+
+
+        SeekBar noteBar = (SeekBar) findViewById(R.id.noteSpeed_slider);
+        noteBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            public void onStopTrackingTouch(SeekBar bar) {
+            }
+
+            public void onStartTrackingTouch(SeekBar bar) {
+            }
+
+            public void onProgressChanged(SeekBar bar, int paramInt, boolean paramBoolean) {
+                editor.putInt("NOTE_SPEED", paramInt);
+                System.out.println(paramInt);
+            }
+        });
+        SeekBar shakeBar = (SeekBar) findViewById(R.id.motionProtection_slider);
+        shakeBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            public void onStopTrackingTouch(SeekBar bar) {
+            }
+
+            public void onStartTrackingTouch(SeekBar bar) {
+            }
+
+            public void onProgressChanged(SeekBar bar, int paramInt, boolean paramBoolean) {
+                editor.putInt("MOTION", paramInt);
+                System.out.println(paramInt);
+            }
+        });
     }
 
 
@@ -50,17 +89,24 @@ public class MySettings extends Activity {
     }
 
     @Override
-    public void onBackPressed()
-    {
+    public void onBackPressed() {
     }
 
     public void setURL(View view) {
-        EditText urlView = (EditText)findViewById(R.id.editText);
+        EditText urlView = (EditText) findViewById(R.id.editText);
         url = urlView.getText().toString();
-        SharedPreferences.Editor editor = getSharedPreferences("preferences", MODE_PRIVATE).edit();
+        url = url + "/rpi";
         editor.putString("url", url);
         editor.commit();
         System.out.println("URL now set to: " + url);
+    }
+
+    public void setDebug(View view) {
+        String value = (toggle.getText() == "ON") ? "ON" : "OFF";
+
+        editor.putString("DEBUG", (String) toggle.getText());
+        editor.apply();
+        editor.commit();
     }
 }
 

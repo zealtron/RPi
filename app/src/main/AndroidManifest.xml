@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="cs4720furrett.rpimobileproject" >
+    package="cs4720furrett.rpimobileproject"
+    android:screenOrientation="landscape"
+    >
 
     <uses-permission android:name="android.permission.INTERNET" />
 

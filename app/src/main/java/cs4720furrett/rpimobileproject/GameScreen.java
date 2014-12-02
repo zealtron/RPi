@@ -22,19 +22,16 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
-import java.util.Vector;
-
-import javax.xml.transform.Result;
 
 
 public class GameScreen extends Activity{
 
     private final long SEED = 9001;
-    private String postURL;
     private final int speed = 100;
-    private GameScreen game;
     //Handles what is returned from the page
     ResponseHandler responseHandler;
+    private String postURL;
+    private GameScreen game;
     private ArrayList<Light> lights = new ArrayList<Light>();
     private Random rng;
     private StringBuilder builder;
@@ -63,7 +60,7 @@ public class GameScreen extends Activity{
         game = this;
         SharedPreferences pref = getSharedPreferences("preferences", MODE_PRIVATE);
         String storedUrl = pref.getString("url", null);
-        if(storedUrl != null){
+        if (storedUrl != null) {
             postURL = pref.getString("url", "no url defined");
             System.out.println(postURL);
             if (!postURL.startsWith("http://")) postURL = "http://" + postURL;
@@ -74,11 +71,16 @@ public class GameScreen extends Activity{
         builder = new StringBuilder();
         lightsbuilder = new StringBuilder();
         rng = new Random(SEED);
-        String data = getIntent().getExtras().getString("CLICKED_SONG");
-        String debug = getIntent().getExtras().getString("DEBUG");
+        String data = pref.getString("CLICKED_SONG", null);
+        if (data == null) {
+            System.out.println("blank song received!");
+        }
+        String debug = pref.getString("DEBUG", "OFF");
         System.out.println(data);
         System.out.println(debug);
-        if (debug.compareTo("ON") == 0) { notDebug = false; }
+        if (debug.compareTo("ON") == 0) {
+            notDebug = false;
+        }
 //        TextView mTextView = (TextView) findViewById(R.id.fullscreen_content);
 //        mTextView.setText(data);
 
@@ -91,24 +93,22 @@ public class GameScreen extends Activity{
             System.out.println(j.toString());
             JSONArray song = j.getJSONArray(data);
             System.out.println(song.toString());
-            for(int x = 0; x < song.length(); x++) {
+            for (int x = 0; x < song.length(); x++) {
                 JSONObject light_data = song.getJSONObject(x);
                 System.out.println(light_data.toString());
-                int index = light_data.getInt("index")*-1 - 32;
+                int index = light_data.getInt("index") * -1 - 32;
                 String color = light_data.getString("color");
-                System.out.println("\t"+index+"\t"+ color);
+                System.out.println("\t" + index + "\t" + color);
                 Light light;
-                if(color.compareTo("red") == 0){
+                if (color.compareTo("red") == 0) {
                     System.out.println("red");
-                    light = new Light(255, 0 , 0, index);
-                }
-                else if(color.compareTo("green") == 0){
+                    light = new Light(255, 0, 0, index);
+                } else if (color.compareTo("green") == 0) {
                     System.out.println("green");
-                    light = new Light(0, 255 , 0, index);
-                }
-                else {
+                    light = new Light(0, 255, 0, index);
+                } else {
                     System.out.println("blue");
-                    light = new Light(0, 0 , 255, index);
+                    light = new Light(0, 0, 255, index);
                 }
 
                 System.out.println(light.toString());
@@ -140,8 +140,6 @@ public class GameScreen extends Activity{
                     //if song ends or fail
                     if(lights.size() == 0 || life <= 0){
                         Intent intent = new Intent(game, ResultsScreen.class);
-                        intent.putExtra("SONG_NAME", getIntent().getExtras().getString("CLICKED_SONG"));
-                        intent.putExtra("DEBUG", getIntent().getExtras().getString("DEBUG"));
                         intent.putExtra("MAX_COMBO", "" + maxCombo);
                         intent.putExtra("SCORE", "" + score);
                         startActivity(intent);
@@ -173,10 +171,29 @@ public class GameScreen extends Activity{
         }.start();
 
     }
+/*
+    @Override
+    protected void onPause() {
+        super.onPause();
+        try {
+            thread.wait();
+            System.out.println("thread wait");
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 
     @Override
-    public void onBackPressed()
-    {
+    protected void onResume() {
+        super.onResume();
+        if(thread.getState() == Thread.State.WAITING) {
+            System.out.println("thread notify");
+            thread.notify();
+        }
+    } */
+
+    @Override
+    public void onBackPressed() {
     }
 
     public void sendPost() {
@@ -195,26 +212,25 @@ public class GameScreen extends Activity{
         while (iter.hasNext()) {
             Light l = iter.next();
             String lightString = l.next();
-            if(l.index == 31) {
+            if (l.index == 31) {
                 if (!noteHit) { //if onBtnClicked did not detect a valid note hit on previous note,
                     currentCombo = 0; //reset combo
                     life -= 10;
                 }
                 noteHit = false; //indicate new note has not been hit yet
-                valid = System.currentTimeMillis() + sleepTime/2;
-                if(l.red == 255) {
+                valid = System.currentTimeMillis() + sleepTime / 2;
+                if (l.red == 255) {
                     last_color = "red";
-                }
-                else if(l.green == 255) {
+                } else if (l.green == 255) {
                     last_color = "green";
-                }
-                else if(l.blue == 255) {
+                } else if (l.blue == 255) {
                     last_color = "blue";
                 }
             }
             if (lightString.compareTo("") != 0) {
                 elements.add(lightString);
                 if (l.done) {
+                    System.out.print("Notes left: " + lights.size());
                     iter.remove();
                 }
 
@@ -230,7 +246,7 @@ public class GameScreen extends Activity{
             //only runs if there is another element THAT HAS A VALUE
             lightsbuilder.append(",");
         }
-        
+
 
         //The lights that will be sent
         String lightstr = lightsbuilder.toString();
@@ -252,18 +268,18 @@ public class GameScreen extends Activity{
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        if(notDebug) {
-        assert holder != null;
-        StringEntity se = null;
-        try {
-            se = new StringEntity(holder.toString());
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
+        if (notDebug) {
+            assert holder != null;
+            StringEntity se = null;
+            try {
+                se = new StringEntity(holder.toString());
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
 
-        httpPost.setEntity(se);
-        httpPost.setHeader("Accept", "application/json");
-        httpPost.setHeader("Content-type", "application/json");
+            httpPost.setEntity(se);
+            httpPost.setHeader("Accept", "application/json");
+            httpPost.setHeader("Content-type", "application/json");
 
             try {
                 httpClient.execute(httpPost, responseHandler);
@@ -273,6 +289,7 @@ public class GameScreen extends Activity{
         }
 
     }
+
     public String loadJSONFromAsset() {
         String json = null;
         try {
@@ -292,6 +309,56 @@ public class GameScreen extends Activity{
         }
         return json;
     }
+
+    public void updateValuesInLayout() {
+        TextView comboView = (TextView) findViewById(R.id.combo);
+        comboView.setText("" + currentCombo);
+        TextView lifeView = (TextView) findViewById(R.id.life);
+        lifeView.setText("" + life);
+    }
+
+    public void onBtnClicked(View v) {
+        long currentTime = System.currentTimeMillis();
+        if (currentTime >= valid && currentTime <= valid + sleepTime / 2) { //if note was hit
+
+            noteHit = true; //indicate note was hit
+
+            //handle combo
+            currentCombo++;
+            if (currentCombo > maxCombo) maxCombo = currentCombo;
+
+            //calculate multiplier based on current combo
+            int multiplier = 1;
+            if (currentCombo > 100) {
+                multiplier = 4;
+            } else if (currentCombo > 50) {
+                multiplier = 3;
+            } else if (currentCombo > 25) {
+                multiplier = 2;
+            }
+
+            //handle score
+            score += 100 * multiplier;
+
+            //handle life
+            life += multiplier;
+            if (life > 100) life = 100;
+
+            updateValuesInLayout();
+
+            //debug messages
+            System.out.println("Within time range of a button");
+            System.out.println(last_color + " " + valid + " " + currentTime);
+            if (v.getId() == R.id.red && last_color == "red") {
+                System.out.println("clicked: red");
+            } else if (v.getId() == R.id.green && last_color == "green") {
+                System.out.println("clicked: green");
+            } else if (v.getId() == R.id.blue && last_color == "blue") {
+                System.out.println("clicked: blue");
+            }
+        }
+    }
+
     public class Light {
         public int red;
         public int green;
@@ -333,53 +400,6 @@ public class GameScreen extends Activity{
                                 "\"red\":%s,\"green\":%s,\"blue\":%d,\n" +
                                 "\"intensity\": 0.5}",
                         index, red, green, blue);
-            }
-        }
-    }
-
-    public void updateValuesInLayout() {
-        TextView comboView = (TextView) findViewById(R.id.combo);
-        comboView.setText("" + currentCombo);
-        TextView lifeView = (TextView) findViewById(R.id.life);
-        lifeView.setText("" + life);
-    }
-
-    public void onBtnClicked(View v){
-        long currentTime = System.currentTimeMillis();
-        if(currentTime >= valid && currentTime <= valid + sleepTime/2) { //if note was hit
-
-            noteHit = true; //indicate note was hit
-
-            //handle combo
-            currentCombo++;
-            if (currentCombo > maxCombo) maxCombo = currentCombo;
-
-            //calculate multiplier based on current combo
-            int multiplier = 1;
-            if (currentCombo > 100) {
-                multiplier = 4;
-            } else if (currentCombo > 50) {
-                multiplier = 3;
-            } else if (currentCombo > 25) {
-                multiplier = 2;
-            }
-
-            //handle score
-            score += 100 * multiplier;
-
-            //handle life
-            life += multiplier;
-            if (life > 100) life = 100;
-
-            //debug messages
-            System.out.println("Within time range of a button");
-            System.out.println(last_color + " " + valid + " " + currentTime);
-            if (v.getId() == R.id.red && last_color == "red") {
-                System.out.println("clicked: red");
-            } else if (v.getId() == R.id.green && last_color == "green") {
-                System.out.println("clicked: green");
-            } else if (v.getId() == R.id.blue && last_color == "blue") {
-                System.out.println("clicked: blue");
             }
         }
     }
