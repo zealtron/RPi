@@ -66,14 +66,19 @@ public class GameScreen extends Activity {
         builder = new StringBuilder();
         lightsbuilder = new StringBuilder();
         rng = new Random(SEED);
-        String data = getIntent().getExtras().getString("CLICKED_SONG");
+
         SharedPreferences pref = getSharedPreferences("preferences", MODE_PRIVATE);
+        String data = pref.getString("CLICKED_SONG", null);
+        if(data == null)
+        {
+            System.out.println("blank song received!");
+        }
         String storedUrl = pref.getString("url", null);
         if(storedUrl != null){
             postURL = pref.getString("url", "no url defined");
             System.out.println(postURL);
         }
-        String debug = getIntent().getExtras().getString("DEBUG");
+        String debug = pref.getString("DEBUG", "OFF");
         System.out.println(data);
         System.out.println(debug);
         if (debug.compareTo("ON") == 0) { notDebug = false; }
@@ -121,6 +126,26 @@ public class GameScreen extends Activity {
         thread.setRunning(true);
         thread.start();
     }
+/*
+    @Override
+    protected void onPause() {
+        super.onPause();
+        try {
+            thread.wait();
+            System.out.println("thread wait");
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(thread.getState() == Thread.State.WAITING) {
+            System.out.println("thread notify");
+            thread.notify();
+        }
+    } */
 
     @Override
     public void onBackPressed()
@@ -162,6 +187,7 @@ public class GameScreen extends Activity {
             if (lightString.compareTo("") != 0) {
                 elements.add(lightString);
                 if (l.done) {
+                    System.out.print("Notes left: " + lights.size());
                     iter.remove();
                 }
 
@@ -301,8 +327,6 @@ public class GameScreen extends Activity {
                 startTime = System.currentTimeMillis();
                 if(lights.size() == 0){
                     Intent intent = new Intent(game, ResultsScreen.class);
-                    intent.putExtra("SONG_NAME", getIntent().getExtras().getString("CLICKED_SONG"));
-                    intent.putExtra("DEBUG", getIntent().getExtras().getString("DEBUG"));
                     intent.putExtra("MAX_COMBO", "" + maxCombo);
                     intent.putExtra("SCORE", "" + score);
                     startActivity(intent);
