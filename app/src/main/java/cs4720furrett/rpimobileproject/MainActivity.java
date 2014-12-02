@@ -34,6 +34,7 @@ public class MainActivity extends Activity implements SensorEventListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        getActionBar().setTitle("Pi Pi Revolution");
 
         //setting up the accelerometer
         sensorMan = (SensorManager) getSystemService(SENSOR_SERVICE);
