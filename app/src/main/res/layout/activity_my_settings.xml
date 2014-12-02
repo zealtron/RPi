@@ -124,6 +124,7 @@
                 android:id="@+id/set_button"
                 android:layout_alignTop="@+id/editText"
                 android:layout_marginTop="50dp"
+
                 android:onClick="setURL" />
 
             <EditText
