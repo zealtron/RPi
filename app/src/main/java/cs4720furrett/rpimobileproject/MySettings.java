@@ -95,7 +95,7 @@ public class MySettings extends Activity {
     public void setURL(View view) {
         EditText urlView = (EditText) findViewById(R.id.editText);
         url = urlView.getText().toString();
-
+        url = url + "/rpi";
         editor.putString("url", url);
         editor.commit();
         System.out.println("URL now set to: " + url);
