@@ -4,19 +4,19 @@
 		"color": "blue"
 	},
 	{
+		"index": 5,
+		"color": "blue"
+	},
+	{
 		"index": 10,
 		"color": "blue"
 	},
 	{
+		"index": 15,
+		"color": "blue"
+	},
+	{
 		"index": 20,
-		"color": "blue"
-	},
-	{
-		"index": 30,
-		"color": "blue"
-	},
-	{
-		"index": 40,
 		"color": "blue"
 	}],
 	"Earth": [{

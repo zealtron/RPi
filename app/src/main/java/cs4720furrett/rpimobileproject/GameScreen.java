@@ -27,7 +27,7 @@ import java.util.Vector;
 import javax.xml.transform.Result;
 
 
-public class GameScreen extends Activity {
+public class GameScreen extends Activity{
 
     private final long SEED = 9001;
     private String postURL;
@@ -36,7 +36,6 @@ public class GameScreen extends Activity {
     //Handles what is returned from the page
     ResponseHandler responseHandler;
     private ArrayList<Light> lights = new ArrayList<Light>();
-    private MainThread thread;
     private Random rng;
     private StringBuilder builder;
     private StringBuilder lightsbuilder;
@@ -55,6 +54,7 @@ public class GameScreen extends Activity {
     private int score = 0;
     private int life = 100;
     private boolean noteHit;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,9 +119,59 @@ public class GameScreen extends Activity {
         }
 
         System.out.println(lights.toString());
-        thread = new MainThread();
-        thread.setRunning(true);
-        thread.start();
+        this.runThread();
+    }
+
+    public void runThread() {
+
+        new Thread(){
+            private boolean running = true;
+
+            public void setRunning(boolean running) {
+                this.running = running;
+            }
+
+            public void run() {
+                System.out.println("run: "+lights.toString());
+                long startTime, endTime;
+                while (running) {
+                    startTime = System.currentTimeMillis();
+
+                    //if song ends or fail
+                    if(lights.size() == 0 || life <= 0){
+                        Intent intent = new Intent(game, ResultsScreen.class);
+                        intent.putExtra("SONG_NAME", getIntent().getExtras().getString("CLICKED_SONG"));
+                        intent.putExtra("DEBUG", getIntent().getExtras().getString("DEBUG"));
+                        intent.putExtra("MAX_COMBO", "" + maxCombo);
+                        intent.putExtra("SCORE", "" + score);
+                        startActivity(intent);
+                        finish();
+                        setRunning(false);
+                    }
+
+                    sendPost();
+                    endTime = System.currentTimeMillis();
+
+                    try {
+                        this.sleep(sleepTime - (endTime - startTime));
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run(){
+                                updateValuesInLayout();
+                            }
+                        });
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                        break;
+                    } catch (IllegalArgumentException e) {
+                        System.out.print("too slow: ");
+                        System.out.print(endTime - startTime);
+                    }
+                    count++;
+                }
+            }
+        }.start();
+
     }
 
     @Override
@@ -149,7 +199,6 @@ public class GameScreen extends Activity {
                 if (!noteHit) { //if onBtnClicked did not detect a valid note hit on previous note,
                     currentCombo = 0; //reset combo
                     life -= 10;
-                    updateValuesInLayout();
                 }
                 noteHit = false; //indicate new note has not been hit yet
                 valid = System.currentTimeMillis() + sleepTime/2;
@@ -288,51 +337,6 @@ public class GameScreen extends Activity {
         }
     }
 
-    public class MainThread extends Thread {
-
-        // flag to hold game state
-        private boolean running;
-
-        public void setRunning(boolean running) {
-            this.running = running;
-        }
-
-        @Override
-        public void run() {
-            System.out.println("run: "+lights.toString());
-            long startTime, endTime;
-            while (running) {
-                startTime = System.currentTimeMillis();
-
-                //if song ends or fail
-                if(lights.size() == 0 || life <= 0){
-                    Intent intent = new Intent(game, ResultsScreen.class);
-                    intent.putExtra("SONG_NAME", getIntent().getExtras().getString("CLICKED_SONG"));
-                    intent.putExtra("DEBUG", getIntent().getExtras().getString("DEBUG"));
-                    intent.putExtra("MAX_COMBO", "" + maxCombo);
-                    intent.putExtra("SCORE", "" + score);
-                    startActivity(intent);
-                    finish();
-                    setRunning(false);
-                }
-
-                sendPost();
-                endTime = System.currentTimeMillis();
-
-                try {
-                    this.sleep(sleepTime - (endTime - startTime));
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                    break;
-                } catch (IllegalArgumentException e) {
-                    System.out.print("too slow: ");
-                    System.out.print(endTime - startTime);
-                }
-                count++;
-            }
-        }
-    }
-
     public void updateValuesInLayout() {
         TextView comboView = (TextView) findViewById(R.id.combo);
         comboView.setText("" + currentCombo);
@@ -366,8 +370,6 @@ public class GameScreen extends Activity {
             //handle life
             life += multiplier;
             if (life > 100) life = 100;
-
-            updateValuesInLayout();
 
             //debug messages
             System.out.println("Within time range of a button");
