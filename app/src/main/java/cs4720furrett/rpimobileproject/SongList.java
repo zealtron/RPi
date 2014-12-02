@@ -12,7 +12,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.ToggleButton;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,7 +29,7 @@ public class SongList extends Activity {
         ListView mainListView = (ListView) findViewById(R.id.list);
 
         // Create and populate a List of planet names.
-        String[] planets = new String[]{"Earth", "Mars","Neptune"};
+        String[] planets = new String[]{"Earth", "Mars", "Neptune"};
         ArrayList<String> planetList = new ArrayList<String>();
         planetList.addAll(Arrays.asList(planets));
 
@@ -75,8 +74,7 @@ public class SongList extends Activity {
     }
 
     @Override
-    public void onBackPressed()
-    {
+    public void onBackPressed() {
     }
 
     public void switchToMainMenu(View view) {

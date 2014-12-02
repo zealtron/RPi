@@ -71,16 +71,12 @@ public class GameScreen extends Activity {
         builder = new StringBuilder();
         lightsbuilder = new StringBuilder();
         rng = new Random(SEED);
-        SharedPreferences pref = getSharedPreferences("preferences", MODE_PRIVATE);
+
         String data = pref.getString("CLICKED_SONG", null);
         if (data == null) {
             System.out.println("blank song received!");
         }
-        String storedUrl = pref.getString("url", null);
-        if (storedUrl != null) {
-            postURL = pref.getString("url", "no url defined");
-            System.out.println(postURL);
-        }
+
         String debug = pref.getString("DEBUG", "OFF");
         System.out.println(data);
         System.out.println(debug);

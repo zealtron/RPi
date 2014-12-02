@@ -9,29 +9,17 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.FloatMath;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
-
-import org.apache.http.client.ResponseHandler;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.BasicResponseHandler;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 
 
 public class MainActivity extends Activity implements SensorEventListener {
 
     final Context context = this;
+    public String url = "";
     //The dialog that pops up
     private AlertDialog alertDialog;
     //Variables to use the accelerometer
@@ -41,8 +29,6 @@ public class MainActivity extends Activity implements SensorEventListener {
     private float mAccel;
     private float mAccelCurrent;
     private float mAccelLast;
-
-    public String url = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -141,8 +127,7 @@ public class MainActivity extends Activity implements SensorEventListener {
     }
 
     @Override
-    public void onBackPressed()
-    {
+    public void onBackPressed() {
     }
 
     @Override

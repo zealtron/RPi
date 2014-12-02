@@ -5,20 +5,19 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
-import twitter4j.*;
+
+import twitter4j.Twitter;
+import twitter4j.TwitterException;
+import twitter4j.TwitterFactory;
 import twitter4j.auth.AccessToken;
 
-public class ResultsScreen extends Activity{
+public class ResultsScreen extends Activity {
+    public static final String CONSUMER_KEY = "s8vGGyRxStg9xbt53NSKBwgSP";
+    public static final String CONSUMER_SECRET = "ehSthJoZ4v0PcfcLM9VrEKSoQOyvfQaUFiZSWZhgwzCrD0Qndj";
+    public static final AccessToken ACCESS_TOKEN = new AccessToken("2892540280-cpLMtt0LHg4kYJRQxKf4VznjRfLOWjfePyn6VE4", "7fLzIgludIK0t6IsUVgI28vsLIKAGWaUIPgfzqNWZ85WP");
     private String name = "";
     private String score = "";
     private String maxCombo = "";
-
-    public static final String CONSUMER_KEY = "s8vGGyRxStg9xbt53NSKBwgSP";
-    public static final String CONSUMER_SECRET= "ehSthJoZ4v0PcfcLM9VrEKSoQOyvfQaUFiZSWZhgwzCrD0Qndj";
-    public static final AccessToken ACCESS_TOKEN = new AccessToken("2892540280-cpLMtt0LHg4kYJRQxKf4VznjRfLOWjfePyn6VE4","7fLzIgludIK0t6IsUVgI28vsLIKAGWaUIPgfzqNWZ85WP");
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,8 +32,7 @@ public class ResultsScreen extends Activity{
     }
 
     @Override
-    public void onBackPressed()
-    {
+    public void onBackPressed() {
     }
 
     public void switchToSongList(View view) {
@@ -50,7 +48,7 @@ public class ResultsScreen extends Activity{
     }
 
     public void Tweet(View view) {
-        Thread t = new Thread(){
+        Thread t = new Thread() {
             @Override
             public void run() {
                 Twitter twitter = new TwitterFactory().getInstance();
@@ -58,7 +56,7 @@ public class ResultsScreen extends Activity{
                 twitter.setOAuthAccessToken(ACCESS_TOKEN);
                 try {
                     twitter.updateStatus("I just played " + name + " on Pi Pi Revolution! I got a score of " + score + " and a max combo of " + maxCombo + "!");
-                }catch (TwitterException e) {
+                } catch (TwitterException e) {
                     e.printStackTrace();
                 }
             }
