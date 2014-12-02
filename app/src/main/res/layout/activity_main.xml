@@ -20,9 +20,8 @@
         android:width="180dp"
         android:id="@+id/songlist"
         android:onClick="switchToSongList"
-        android:layout_above="@+id/center_anchor"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="20dp" />
+        android:layout_above="@+id/settings"
+        android:layout_centerHorizontal="true" />
 
     <Button
         android:layout_width="wrap_content"
@@ -32,9 +31,18 @@
         android:text="Settings"
         android:id="@+id/settings"
         android:onClick="switchToSettings"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/songlist"
-        android:layout_marginTop="-25dp"
-        />
+        android:layout_alignParentBottom="true"
+        android:layout_alignLeft="@+id/songlist"
+        android:layout_alignStart="@+id/songlist"
+        android:layout_marginBottom="54dp" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="29dp"
+        android:src="@drawable/pipirevolutionlogo"
+        android:layout_above="@+id/songlist" />
 
 </RelativeLayout>

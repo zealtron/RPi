@@ -5,6 +5,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
@@ -29,6 +34,19 @@ public class ResultsScreen extends Activity {
         score = getIntent().getExtras().getString("SCORE");
         maxCombo = getIntent().getExtras().getString("MAX_COMBO");
         getActionBar().setTitle("Results of " + name);
+
+        ListView mainListView = (ListView) findViewById(R.id.listView);
+
+        // Create and populate a List of results.
+        String[] results = new String[]{"Score: " + score, "MAX Combo: " + maxCombo};
+        ArrayList<String> resultsList = new ArrayList<String>();
+        resultsList.addAll(Arrays.asList(results));
+
+        // Create ArrayAdapter using the planet list.
+        ArrayAdapter<String> listAdapter = new ArrayAdapter<String>(this, R.layout.simplerow, resultsList);
+
+        // Set the ArrayAdapter as the ListView's adapter.
+        mainListView.setAdapter(listAdapter);
     }
 
     @Override
