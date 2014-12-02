@@ -97,6 +97,12 @@ public class MainActivity extends Activity implements SensorEventListener {
         finish();
     }
 
+    public void switchToHowToPlay(View view) {
+        Intent intent = new Intent(this, HowToPlay.class);
+        startActivity(intent);
+        finish();
+    }
+
     /* Sends post */
     //Changed, moved to settings
 //    public void sendPost(View view) throws IOException, JSONException {
@@ -127,6 +133,7 @@ public class MainActivity extends Activity implements SensorEventListener {
         sensorMan.unregisterListener((android.hardware.SensorEventListener) this);
     }
 
+    //Disable Back Button
     @Override
     public void onBackPressed() {
     }

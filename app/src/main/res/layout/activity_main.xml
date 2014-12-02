@@ -42,8 +42,19 @@
         android:id="@+id/imageView"
         android:layout_alignParentTop="true"
         android:layout_centerInParent="true"
-        android:layout_marginTop="29dp"
+        android:layout_marginTop="0dp"
         android:src="@drawable/pipirevolutionlogo"
         android:layout_above="@+id/songlist" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:height="55dp"
+        android:width="180dp"
+        android:text="How to Play"
+        android:id="@+id/help"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:onClick="switchToHowToPlay" />
 
 </RelativeLayout>

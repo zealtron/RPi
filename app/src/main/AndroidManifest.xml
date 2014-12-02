@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="cs4720furrett.rpimobileproject"
-    android:screenOrientation="landscape"
-    >
+    android:screenOrientation="landscape" >
 
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
-        android:screenOrientation="landscape"
         android:label="@string/app_name"
+        android:screenOrientation="landscape"
         android:theme="@style/AppTheme" >
         <activity
             android:name="cs4720furrett.rpimobileproject.MainActivity"
@@ -25,7 +24,6 @@
             android:name="cs4720furrett.rpimobileproject.SongList"
             android:label="@string/title_activity_song_list" >
         </activity>
-
         <activity
             android:name="cs4720furrett.rpimobileproject.MySettings"
             android:label="@string/title_activity_my_settings" >
@@ -42,13 +40,25 @@
         </activity>
         <activity
             android:name="cs4720furrett.rpimobileproject.ResultsScreen"
-            android:label="ResultsScreen">
+            android:label="ResultsScreen" >
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="x-oauthflow-twitter" android:host="twitterlogin"/>
+
+                <data
+                    android:host="twitterlogin"
+                    android:scheme="x-oauthflow-twitter" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name="cs4720furrett.rpimobileproject.HowToPlay"
+            android:label="@string/title_activity_how_to_play"
+            android:parentActivityName="cs4720furrett.rpimobileproject.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="cs4720furrett.rpimobileproject.MainActivity" />
         </activity>
     </application>
 

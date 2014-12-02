@@ -88,6 +88,7 @@ public class MySettings extends Activity {
         finish();
     }
 
+    //Disable Back Button
     @Override
     public void onBackPressed() {
     }

@@ -49,6 +49,7 @@ public class ResultsScreen extends Activity {
         mainListView.setAdapter(listAdapter);
     }
 
+    //Disable Back Button
     @Override
     public void onBackPressed() {
     }
