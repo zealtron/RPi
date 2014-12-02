@@ -6,16 +6,45 @@
     android:orientation="vertical"
     tools:context="cs4720furrett.rpimobileproject.GameScreen">
 
-    <TextView
+    <RelativeLayout
         android:id="@+id/fullscreen_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
         android:keepScreenOn="true"
         android:text="@string/dummy_content"
         android:textColor="#33b5e5"
         android:textSize="50sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        >
+        <TextView
+            android:id="@+id/lifeLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:text="Life:"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="5dp"
+            android:textSize="20dp"
+            />
+
+        <TextView
+            android:id="@+id/life"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="55dp"
+            android:text="0"
+            android:textSize="40dp"
+
+            />
+
+
+
+
+     </RelativeLayout>
+
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
@@ -57,6 +86,8 @@
                     android:gravity="bottom"
                     android:layout_centerInParent="true"
                     android:onClick="onBtnClicked"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="20px"
                     />
 
                 <ImageButton
@@ -71,6 +102,40 @@
                     android:layout_centerInParent="true"
                     android:onClick="onBtnClicked"
                     />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignLeft="@+id/blue"
+                    android:layout_alignRight="@+id/blue"
+                    android:orientation="vertical"
+                    android:layout_marginTop="20px"
+                    >
+                    <TextView
+                        android:id="@+id/comboLabel"
+                        android:layout_width="fill_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="0.3"
+                        android:text="Combo:"
+                        android:textSize="20dp"
+                        android:gravity="center"
+                        >
+
+                    </TextView>
+                    <TextView
+                        android:id="@+id/combo"
+                        android:layout_width="fill_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="0.7"
+                        android:text="0"
+                        android:textSize="40dp"
+                        android:gravity="center"
+                        >
+
+                    </TextView>
+                </LinearLayout>
             </RelativeLayout>
         </LinearLayout>
         <Space

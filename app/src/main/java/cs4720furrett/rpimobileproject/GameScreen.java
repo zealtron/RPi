@@ -53,6 +53,7 @@ public class GameScreen extends Activity {
     private int currentCombo = 0;
     private int maxCombo = 0;
     private int score = 0;
+    private int life = 100;
     private boolean noteHit;
 
     @Override
@@ -146,6 +147,7 @@ public class GameScreen extends Activity {
             if(l.index == 31) {
                 if (!noteHit) { //if onBtnClicked did not detect a valid note hit on previous note,
                     currentCombo = 0; //reset combo
+                    life -= 10;
                 }
                 noteHit = false; //indicate new note has not been hit yet
                 valid = System.currentTimeMillis() + sleepTime/2;
@@ -299,7 +301,9 @@ public class GameScreen extends Activity {
             long startTime, endTime;
             while (running) {
                 startTime = System.currentTimeMillis();
-                if(lights.size() == 0){
+
+                //if song ends or fail
+                if(lights.size() == 0 || life <= 0){
                     Intent intent = new Intent(game, ResultsScreen.class);
                     intent.putExtra("SONG_NAME", getIntent().getExtras().getString("CLICKED_SONG"));
                     intent.putExtra("DEBUG", getIntent().getExtras().getString("DEBUG"));
@@ -332,10 +336,32 @@ public class GameScreen extends Activity {
 
             noteHit = true; //indicate note was hit
 
-            //handle combo and score
+            //handle combo
             currentCombo++;
             if (currentCombo > maxCombo) maxCombo = currentCombo;
-            score += 100;
+
+            //calculate multiplier based on current combo
+            int multiplier = 1;
+            if (currentCombo > 100) {
+                multiplier = 4;
+            } else if (currentCombo > 50) {
+                multiplier = 3;
+            } else if (currentCombo > 25) {
+                multiplier = 2;
+            }
+
+            //handle score
+            score += 100 * multiplier;
+
+            //handle life
+            life += multiplier;
+            if (life > 100) life = 100;
+
+            //update layout
+            TextView comboView = (TextView) findViewById(R.id.combo);
+            comboView.setText("" + currentCombo);
+            TextView lifeView = (TextView) findViewById(R.id.life);
+            lifeView.setText("" + life);
 
             //debug messages
             System.out.println("Within time range of a button");
