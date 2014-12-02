@@ -118,8 +118,7 @@
                 android:id="@+id/set_button"
                 android:layout_alignTop="@+id/editText"
                 android:layout_marginTop="30dp"
-                android:onClick="setURL"
-                android:clickable="false" />
+                android:onClick="setURL" />
 
             <EditText
                 android:layout_width="fill_parent"

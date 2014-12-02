@@ -30,7 +30,7 @@ import javax.xml.transform.Result;
 public class GameScreen extends Activity {
 
     private final long SEED = 9001;
-    private String postURL = "http://192.168.2.14/rpi";
+    private String postURL;
     private final int speed = 100;
     private GameScreen game;
     //Handles what is returned from the page
@@ -61,6 +61,13 @@ public class GameScreen extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_screen);
         game = this;
+        SharedPreferences pref = getSharedPreferences("preferences", MODE_PRIVATE);
+        String storedUrl = pref.getString("url", null);
+        if(storedUrl != null){
+            postURL = pref.getString("url", "no url defined");
+            System.out.println(postURL);
+            if (!postURL.startsWith("http://")) postURL = "http://" + postURL;
+        }
         httpClient = new DefaultHttpClient();
         httpPost = new HttpPost(postURL);
         responseHandler = new BasicResponseHandler();
@@ -68,18 +75,12 @@ public class GameScreen extends Activity {
         lightsbuilder = new StringBuilder();
         rng = new Random(SEED);
         String data = getIntent().getExtras().getString("CLICKED_SONG");
-        SharedPreferences pref = getSharedPreferences("preferences", MODE_PRIVATE);
-        String storedUrl = pref.getString("url", null);
-        if(storedUrl != null){
-            postURL = pref.getString("url", "no url defined");
-            System.out.println(postURL);
-        }
         String debug = getIntent().getExtras().getString("DEBUG");
         System.out.println(data);
         System.out.println(debug);
         if (debug.compareTo("ON") == 0) { notDebug = false; }
-        TextView mTextView = (TextView) findViewById(R.id.fullscreen_content);
-        mTextView.setText(data);
+//        TextView mTextView = (TextView) findViewById(R.id.fullscreen_content);
+//        mTextView.setText(data);
 
         String songsInJSON = loadJSONFromAsset();
         System.out.println("songJSON");

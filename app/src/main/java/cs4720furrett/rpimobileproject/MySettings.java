@@ -55,11 +55,12 @@ public class MySettings extends Activity {
     }
 
     public void setURL(View view) {
-//        EditText urlView = (EditText)findViewById(R.id.editText);
-//        url = urlView.getText().toString();
+        EditText urlView = (EditText)findViewById(R.id.editText);
+        url = urlView.getText().toString();
         SharedPreferences.Editor editor = getSharedPreferences("preferences", MODE_PRIVATE).edit();
         editor.putString("url", url);
         editor.commit();
+        System.out.println("URL now set to: " + url);
     }
 }
 
