@@ -72,7 +72,15 @@
 		"color": "red"
 	},
 	{
+		"index": 5,
+		"color": "red"
+	},
+	{
 		"index": 10,
+		"color": "red"
+	},
+	{
+		"index": 15,
 		"color": "red"
 	},
 	{
@@ -80,7 +88,15 @@
 		"color": "red"
 	},
 	{
+		"index": 25,
+		"color": "red"
+	},
+	{
 		"index": 30,
+		"color": "red"
+	},
+	{
+		"index": 35,
 		"color": "red"
 	},
 	{
@@ -88,27 +104,11 @@
 		"color": "red"
 	},
 	{
+		"index": 45,
+		"color": "red"
+	},
+	{
 		"index": 50,
-		"color": "red"
-	},
-	{
-		"index": 60,
-		"color": "red"
-	},
-	{
-		"index": 70,
-		"color": "red"
-	},
-	{
-		"index": 80,
-		"color": "red"
-	},
-	{
-		"index": 90,
-		"color": "red"
-	},
-	{
-		"index": 100,
 		"color": "red"
 	}]
 }

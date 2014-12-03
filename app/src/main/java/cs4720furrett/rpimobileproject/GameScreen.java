@@ -102,6 +102,8 @@ public class GameScreen extends Activity implements SensorEventListener {
         if (data == null) {
             System.out.println("blank song received!");
         }
+
+        getActionBar().setTitle("Now Playing " + data);
         System.out.println(data);
         System.out.println(debug);
 
@@ -190,6 +192,7 @@ public class GameScreen extends Activity implements SensorEventListener {
                         }
                         System.out.println(count);
                         count++;
+
                     }
                 }
             }

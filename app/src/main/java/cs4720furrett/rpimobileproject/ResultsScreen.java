@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -23,6 +24,8 @@ public class ResultsScreen extends Activity {
     private String name = "";
     private String score = "";
     private String maxCombo = "";
+    private String life = "";
+    private String pass = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +36,16 @@ public class ResultsScreen extends Activity {
         name = pref.getString("CLICKED_SONG", "No song");
         score = getIntent().getExtras().getString("SCORE");
         maxCombo = getIntent().getExtras().getString("MAX_COMBO");
+        life = getIntent().getExtras().getString("LIFE");
         getActionBar().setTitle("Results of " + name);
+        ImageView image = (ImageView) findViewById(R.id.result);
+        if(life.equals("0")){
+            image.setImageResource(R.drawable.fail);
+            pass = "failed";
+        }else{
+            image.setImageResource(R.drawable.clear);
+            pass = "cleared";
+        }
 
         ListView mainListView = (ListView) findViewById(R.id.listView);
 
@@ -74,7 +86,7 @@ public class ResultsScreen extends Activity {
                 twitter.setOAuthConsumer(CONSUMER_KEY, CONSUMER_SECRET);
                 twitter.setOAuthAccessToken(ACCESS_TOKEN);
                 try {
-                    twitter.updateStatus("I just played " + name + " on Pi Pi Revolution! I got a score of " + score + " and a max combo of " + maxCombo + "!");
+                    twitter.updateStatus("I just " + pass + " " + name + " on Pi Pi Revolution! I got a score of " + score + " and a max combo of " + maxCombo + "!");
                 } catch (TwitterException e) {
                     e.printStackTrace();
                 }
