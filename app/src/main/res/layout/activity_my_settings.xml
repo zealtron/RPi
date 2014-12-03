@@ -2,11 +2,12 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:background="@drawable/background3"
     >
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background3">
+    >
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -15,50 +16,8 @@
 
         <RelativeLayout
             android:layout_width="500dp"
-            android:layout_height="100dp"
-            android:id="@+id/noteSpeedPanel"
-            android:layout_centerHorizontal="true">
-
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Note Speed"
-                android:id="@+id/noteSpeed_title"
-                android:layout_marginTop="15dp"
-                android:layout_marginLeft="15dp"
-                android:textSize="20dp"/>
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Default"
-                android:id="@+id/noteSpeed_default"
-                android:layout_below="@+id/noteSpeed_title"
-                android:layout_marginLeft="13dp"
-                android:width="90dp"
-
-                />
-
-            <SeekBar
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/noteSpeed_slider"
-                android:layout_below="@+id/noteSpeed_title"
-                android:layout_marginTop="5dp"
-                android:layout_marginLeft="120dp"
-                android:minWidth="300dp"
-                />
-
-
-        </RelativeLayout>
-
-
-        <RelativeLayout
-            android:layout_width="500dp"
             android:layout_height="150dp"
             android:id="@+id/motionProtectionPanel"
-            android:layout_below="@+id/noteSpeedPanel"
             android:layout_marginTop="0dp"
             android:layout_centerHorizontal="true">
 
@@ -77,6 +36,7 @@
                 android:layout_height="wrap_content"
                 android:text="New ToggleButton"
                 android:id="@+id/motionProtection_toggle"
+                android:onClick="toggleMotion"
 
                 android:width="90dp"
                 android:layout_centerVertical="true"

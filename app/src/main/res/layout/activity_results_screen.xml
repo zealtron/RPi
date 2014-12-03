@@ -70,7 +70,7 @@
     android:text="Post to Twitter!"
     android:id="@+id/button4"
     android:layout_gravity="center_horizontal"
-        android:paddingTop="50dp"
+    android:layout_marginTop="50dp"
     android:layout_alignParentBottom="true"
     android:onClick="Tweet" />
     </LinearLayout>
