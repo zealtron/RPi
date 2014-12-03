@@ -518,17 +518,17 @@ public class GameScreen extends Activity implements SensorEventListener {
         }
 
         public String toString() {
-            if (index < 0) {
-                return "";
-            } else {
-                return String.format(
-                        "{\"lightId\": %d,\n" +
-                                "\"red\":%s,\"green\":%s,\"blue\":%d,\n" +
-                                "\"intensity\": 0.5}",
-                        index, red, green, blue);
-            }
-        }
+    if (index < 0) {
+        return "";
+    } else {
+        return String.format(
+                "{\"lightId\": %d,\n" +
+                        "\"red\":%s,\"green\":%s,\"blue\":%d,\n" +
+                        "\"intensity\": 0.5}",
+                index, red, green, blue);
     }
+}
+}
 
 }
 //}
