@@ -74,13 +74,8 @@ public class GameScreen extends Activity implements SensorEventListener {
     private float mAccelLast;
     private boolean focused = true;
     private int songID;
-    //private MediaPlayer player;
-    private SoundPool soundPool;
-    private boolean plays = false, loaded = false;
-    private float actVolume, maxVolume, volume;
-    private AudioManager audioManager;
-    private int songCounter=0;
-    private int soundPoolID;
+    private boolean musicShouldPlay = false;
+    private boolean killPlayer = false;
     private SharedPreferences pref;
     private boolean motionOn;
     @Override
@@ -120,24 +115,9 @@ public class GameScreen extends Activity implements SensorEventListener {
         getActionBar().setTitle("Now Playing " + data);
         System.out.println(data);
         System.out.println(debug);
-        //audio settings
-        audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
-        actVolume = (float) audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
-        maxVolume = (float) audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
-        volume  = actVolume/maxVolume;
-        //Load song
-        soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
-        soundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
-            @Override
-            public void onLoadComplete(SoundPool soundPool, int sampleId, int status) {
-                loaded = true;
-                System.out.println("Loaded song");
-            }
-        });
         if(data.equals("Jingle Bells")){
             songID =  R.raw.pipi_jingle;
         }
-        soundPoolID = soundPool.load(this, songID, 1);
 
 //        TextView mTextView = (TextView) findViewById(R.id.fullscreen_content);
 //        mTextView.setText(data);
@@ -178,9 +158,31 @@ public class GameScreen extends Activity implements SensorEventListener {
         setupAccelerometer();
 
         System.out.println(lights.toString());
-
+//        this.initializeMusic();
         this.runThread();
     }
+
+//    public void initializeMusic() {
+//        new Thread(){
+//
+//            public void run() {
+//                MediaPlayer player = MediaPlayer.create(GameScreen.this, songID);
+//                player.start();
+//                boolean musicPlaying = true;
+//                while(!killPlayer) {
+//                    if (musicPlaying && !musicShouldPlay){
+//                        player.pause();
+//                        musicPlaying = false;
+//                    }
+//                    if (!musicPlaying && musicShouldPlay){
+//                        player.start();
+//                        musicPlaying = true;
+//                    }
+//                }
+//                player.release();
+//            }
+//        }.start();
+//    }
 
     public void runThread() {
 
@@ -188,19 +190,18 @@ public class GameScreen extends Activity implements SensorEventListener {
             public void run() {
                 System.out.println("run: " + lights.toString());
                 long startTime, endTime;
-                //player = MediaPlayer.create(GameScreen.this, songID);
-                //player.start();
-                playSound();
+
 
                 while (running) {
                     if (focused) {
                         startTime = System.currentTimeMillis();
-
                         //if song ends or fail
                         if (lights.size() == 0 || life <= 0) {
+                            killPlayer = true;
                             Intent intent = new Intent(game, ResultsScreen.class);
                             intent.putExtra("MAX_COMBO", "" + maxCombo);
                             intent.putExtra("SCORE", "" + score);
+                            if(life < 0) life = 0;
                             intent.putExtra("LIFE", "" + life);
                             intent.putExtra("HITS", "" + hits);
                             intent.putExtra("MISSES", "" + misses);
@@ -208,7 +209,6 @@ public class GameScreen extends Activity implements SensorEventListener {
                             finish();
                             running = false;
                             focused = false;
-                            stopSound();
                         }
 
                         sendPost();
@@ -235,31 +235,6 @@ public class GameScreen extends Activity implements SensorEventListener {
                 }
             }
         }.start();
-    }
-
-    public void playSound() {
-        if(loaded && !plays) {
-            soundPool.play(soundPoolID, volume, volume, 1, 0, 1f);
-            plays = true;
-            songCounter++;
-            System.out.println("Play music");
-        }
-    }
-
-    public void pauseSound() {
-        if(plays) {
-            soundPool.pause(soundPoolID);
-            soundPoolID = soundPool.load(this, songID, songCounter);
-            plays = false;
-        }
-    }
-
-    public void stopSound(){
-        if(plays){
-            soundPool.stop(soundPoolID);
-            soundPoolID = soundPool.load(this, songID, songCounter);
-            plays=false;
-        }
     }
 
     //Disable Back Button
@@ -482,7 +457,7 @@ public class GameScreen extends Activity implements SensorEventListener {
         super.onResume();
         sensorMan.registerListener((android.hardware.SensorEventListener) this, accelerometer, SensorManager.SENSOR_DELAY_UI);
         focused = true;
-        if(soundPool != null) playSound();
+        musicShouldPlay = true;
         System.out.println("Resumed");
     }
 
@@ -491,7 +466,7 @@ public class GameScreen extends Activity implements SensorEventListener {
         super.onPause();
         sensorMan.unregisterListener((android.hardware.SensorEventListener) this);
         focused = false;
-        pauseSound();
+        musicShouldPlay = false;
         System.out.println("Paused");
     }
 
