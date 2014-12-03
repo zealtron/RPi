@@ -110,5 +110,54 @@
 	{
 		"index": 50,
 		"color": "red"
-	}]
+	}],
+	"Jingle Bells": [
+	{
+	    "index": 7,
+    	"color": "green",
+    	"comment": "first downbeat"
+	},
+	{
+	    "index": 9,
+    	"color": "green"
+    },
+    {
+        "index": 11,
+        "color": "green"
+    },
+    {
+        "index": 13,
+        "color": "blue"
+    },
+    {
+         "index": 15,
+         "color": "green"
+    },
+    {
+         "index": 17,
+         "color": "blue"
+    },
+    {
+         "index": 19,
+         "color": "red"
+    },
+    {
+         "index": 23,
+         "color": "red",
+         "comment": "dashing through..."
+    },
+    {
+         "index": 25,
+         "color": "blue"
+    },
+    {
+         "index": 27,
+         "color": "green"
+    },
+    {
+         "index": 31,
+         "color": "green"
+    }
+
+    ]
 }
