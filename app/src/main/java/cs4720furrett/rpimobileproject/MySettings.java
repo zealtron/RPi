@@ -77,7 +77,7 @@ public class MySettings extends Activity implements SensorEventListener {
     public void buildDialog() {
         //setting up the dialog
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setMessage("Shake protection pauses the game if the device moves.  Slide to the left to increase sensitivity!")
+        builder.setMessage("Shake protection pauses the game if the device moves.  Slide to the right to increase sensitivity, and toggle it on and off with the button.")
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         onResume();
@@ -193,7 +193,7 @@ public class MySettings extends Activity implements SensorEventListener {
     }
 
     public void whatsThis(View view) {
-alertDialog.show();
+        alertDialog.show();
     }
     public void toggleMotion(View view) {
         motionOn = ((String) motion_toggle.getText()).compareTo("ON") == 0;
