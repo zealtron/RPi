@@ -69,6 +69,8 @@ public class GameScreen extends Activity implements SensorEventListener {
     private float mAccelCurrent;
     private float mAccelLast;
     private boolean focused = true;
+    private int songID;
+    private MediaPlayer player;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,6 +109,10 @@ public class GameScreen extends Activity implements SensorEventListener {
         getActionBar().setTitle("Now Playing " + data);
         System.out.println(data);
         System.out.println(debug);
+
+        if(data.equals("Jingle Bells")){
+            songID = R.raw.pipi_jingle;
+        }
 
 //        TextView mTextView = (TextView) findViewById(R.id.fullscreen_content);
 //        mTextView.setText(data);
@@ -147,8 +153,8 @@ public class GameScreen extends Activity implements SensorEventListener {
         setupAccelerometer();
 
         System.out.println(lights.toString());
-        MediaPlayer player = MediaPlayer.create(this, R.raw.pipi_jingle);
-        player.start();
+
+
         this.runThread();
     }
 
@@ -160,6 +166,8 @@ public class GameScreen extends Activity implements SensorEventListener {
             public void run() {
                 System.out.println("run: " + lights.toString());
                 long startTime, endTime;
+                player = MediaPlayer.create(GameScreen.this, songID);
+                player.start();
                 while (running) {
                     if (focused) {
                         startTime = System.currentTimeMillis();
@@ -174,6 +182,7 @@ public class GameScreen extends Activity implements SensorEventListener {
                             finish();
                             running = false;
                             focused = false;
+                            player.stop();
                         }
 
                         sendPost();
@@ -422,6 +431,7 @@ public class GameScreen extends Activity implements SensorEventListener {
         super.onResume();
         sensorMan.registerListener((android.hardware.SensorEventListener) this, accelerometer, SensorManager.SENSOR_DELAY_UI);
         focused = true;
+        if(player != null) player.start();
         System.out.println("Resumed");
     }
 
@@ -430,6 +440,7 @@ public class GameScreen extends Activity implements SensorEventListener {
         super.onPause();
         sensorMan.unregisterListener((android.hardware.SensorEventListener) this);
         focused = false;
+        player.pause();
         System.out.println("Paused");
     }
 
