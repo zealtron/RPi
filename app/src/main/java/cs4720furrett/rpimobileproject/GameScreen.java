@@ -76,7 +76,7 @@ public class GameScreen extends Activity{
         if (data == null) {
             System.out.println("blank song received!");
         }
-
+        getActionBar().setTitle("Now Playing " + data);
         String debug = pref.getString("DEBUG", "OFF");
         System.out.println(data);
         System.out.println(debug);
@@ -144,6 +144,8 @@ public class GameScreen extends Activity{
                         Intent intent = new Intent(game, ResultsScreen.class);
                         intent.putExtra("MAX_COMBO", "" + maxCombo);
                         intent.putExtra("SCORE", "" + score);
+                        if(life < 0) life = 0;
+                        intent.putExtra("LIFE", "" + life);
                         startActivity(intent);
                         finish();
                         setRunning(false);

@@ -6,12 +6,19 @@
     android:background="@drawable/background3">
 
     <ListView
-        android:layout_width="822dp"
-        android:layout_height="333dp"
+        android:layout_width="400dp"
+        android:layout_height="200dp"
         android:id="@+id/listView"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal"
+        android:background="#73dc73"/>
 
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/result"
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/clear"/>
 
     <RelativeLayout
         android:layout_width="wrap_content"
