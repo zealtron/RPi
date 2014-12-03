@@ -1,6 +1,7 @@
 package cs4720furrett.rpimobileproject;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -55,16 +56,30 @@ public class SongList extends Activity {
                 SharedPreferences.Editor editor = getSharedPreferences("preferences", MODE_PRIVATE).edit();
                 editor.putString("CLICKED_SONG", (String) clickedView.getText());
                 editor.commit();
-
-                Intent intent = new Intent(context, GameScreen.class);
-                startActivity(intent);
-                finish();
+                SharedPreferences pref = getSharedPreferences("preferences", MODE_PRIVATE);
+                String storedUrl = pref.getString("url", null);
+                System.out.println(storedUrl);
+                if (storedUrl.equals("/rpi") || storedUrl.equals(null)) {
+                    urlAlert();
+                }else{
+                    Intent intent = new Intent(context, GameScreen.class);
+                    startActivity(intent);
+                    finish();
+                }
                 //Toast.makeText(SongList.this, "Item with id [" + id + "] - Position [" + position + "] - Planet [" + clickedView.getText() + "]", Toast.LENGTH_SHORT).show();
 
             }
         });
     }
 
+    public void urlAlert(){
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setMessage("You need to set the URL of your Raspberry Pi before playing. Please head back to the Main Menu and enter your URL in the Settings page.");
+        alert.setTitle("Invalid URL");
+        alert.setPositiveButton("OK", null);
+        alert.setCancelable(true);
+        alert.create().show();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
