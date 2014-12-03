@@ -387,7 +387,7 @@ public class GameScreen extends Activity implements SensorEventListener {
     public void buildDialog() {
         //setting up the dialog
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setMessage("You moved the Android device!")
+        builder.setMessage("Shake protection paused the game!")
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         onResume();
