@@ -59,10 +59,10 @@ public class ResultsScreen extends Activity {
 
         // Create and populate a List of results.
         String[] results = new String[]{
-                "SCORE:\t\t\t\t" + score,
-                "MAX COMBO:\t\t\t" + maxCombo,
-                "NOTES HIT:\t\t\t" + hits,
-                "NOTES MISSED:\t\t" + misses
+                "SCORE:\t\t\t\t\t\t\t\t\t" + score,
+                "MAX COMBO:\t\t\t\t\t" + maxCombo,
+                "NOTES HIT:\t\t\t\t\t\t\t" + hits,
+                "NOTES MISSED:\t\t\t\t" + misses
         };
         ArrayList<String> resultsList = new ArrayList<String>();
         resultsList.addAll(Arrays.asList(results));
