@@ -18,9 +18,12 @@ import twitter4j.TwitterFactory;
 import twitter4j.auth.AccessToken;
 
 public class ResultsScreen extends Activity {
+
+    //twitter tokens
     public static final String CONSUMER_KEY = "s8vGGyRxStg9xbt53NSKBwgSP";
     public static final String CONSUMER_SECRET = "ehSthJoZ4v0PcfcLM9VrEKSoQOyvfQaUFiZSWZhgwzCrD0Qndj";
     public static final AccessToken ACCESS_TOKEN = new AccessToken("2892540280-cpLMtt0LHg4kYJRQxKf4VznjRfLOWjfePyn6VE4", "7fLzIgludIK0t6IsUVgI28vsLIKAGWaUIPgfzqNWZ85WP");
+
     private String name = "";
     private String score = "";
     private String maxCombo = "";
@@ -42,7 +45,7 @@ public class ResultsScreen extends Activity {
         hits = getIntent().getExtras().getString("HITS");
         misses = getIntent().getExtras().getString("MISSES");
 
-        getActionBar().setTitle("Results of " + name);
+        getActionBar().setTitle(name + ": Results");
         ImageView image = (ImageView) findViewById(R.id.result);
         if (life.equals("0")) {
             image.setImageResource(R.drawable.fail);

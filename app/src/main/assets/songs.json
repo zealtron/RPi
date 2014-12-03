@@ -343,70 +343,32 @@
         "comment": "deck the halls"
     },
     {
-        "index": 4,
-        "color": "blue"
-    },
-    {
         "index": 8,
-        "color": "green"
-    },
-    {
-        "index": 12,
-        "color": "blue"
-    },
-    {
-        "index": 14,
         "color": "blue"
     },
     {
         "index": 16,
-        "color": "red",
-        "comment": "second"
-    },
-    {
-        "index": 20,
-        "color": "blue"
+        "color": "green"
     },
     {
         "index": 24,
-        "color": "green"
+        "color": "blue"
     },
     {
         "index": 28,
         "color": "blue"
     },
     {
-        "index": 30,
-        "color": "blue"
-    },
-    {
         "index": 32,
-        "color": "green",
-        "comment": "third"
-    },
-    {
-        "index": 36,
-        "color": "blue"
+        "color": "red",
+        "comment": "second"
     },
     {
         "index": 40,
-        "color": "red"
-    },
-    {
-        "index": 42,
-        "color": "green"
-    },
-    {
-        "index": 44,
         "color": "blue"
     },
     {
         "index": 48,
-        "color": "red",
-        "comment": "fourth"
-    },
-    {
-        "index": 52,
         "color": "green"
     },
     {
@@ -415,10 +377,52 @@
     },
     {
         "index": 60,
+        "color": "blue"
+    },
+    {
+        "index": 64,
+        "color": "green",
+        "comment": "third"
+    },
+    {
+        "index": 72,
+        "color": "blue"
+    },
+    {
+        "index": 80,
+        "color": "red"
+    },
+    {
+        "index": 84,
         "color": "green"
     },
     {
-        "index": 62,
+        "index": 88,
+        "color": "blue"
+    },
+    {
+        "index": 92,
+        "color": "blue"
+    },
+    {
+        "index": 96,
+        "color": "red",
+        "comment": "fourth"
+    },
+    {
+        "index": 104,
+        "color": "green"
+    },
+    {
+        "index": 112,
+        "color": "blue"
+    },
+    {
+        "index": 120,
+        "color": "green"
+    },
+    {
+        "index": 124,
         "color": "red"
     }]
 

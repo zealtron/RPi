@@ -56,15 +56,22 @@ public class GameScreen extends Activity implements SensorEventListener {
     private Iterator<String> striter;
     private ArrayList<String> elements = new ArrayList<String>();
     private boolean notDebug = true;
+
+    //timing
     private long sleepTime = 250;
     private volatile long valid = 0;
+    private final int lagCompensate = 50;
+
     private volatile String last_color = "";
+
+    //stats
     private int currentCombo = 0;
     private int maxCombo = 0;
     private int score = 0;
     private int life = 100;
     private int hits = 0;
     private int misses = 0;
+
     private boolean noteHit;
     private AlertDialog alertDialog;
     private SensorManager sensorMan;
@@ -225,10 +232,12 @@ public class GameScreen extends Activity implements SensorEventListener {
                             focused = false;
                             player.release();
                         }
+
                         sendPost();
                         endTime = System.currentTimeMillis();
 
                         try {
+
                             this.sleep(sleepTime - (endTime - startTime));
                             runOnUiThread(new Runnable() {
                                 @Override
@@ -241,7 +250,7 @@ public class GameScreen extends Activity implements SensorEventListener {
                             break;
                         } catch (IllegalArgumentException e) {
                             System.out.print("too slow: ");
-                            System.out.print(endTime - startTime);
+                            System.out.println(endTime - startTime);
                         }
                         System.out.println(count);
                         count++;
@@ -279,7 +288,7 @@ public class GameScreen extends Activity implements SensorEventListener {
                     misses++; //account for miss
                 }
                 noteHit = false; //indicate new note has not been hit yet
-                valid = System.currentTimeMillis() + sleepTime;
+                valid = System.currentTimeMillis() + sleepTime + lagCompensate;
                 if (l.red == 255) {
                     last_color = "red";
                 } else if (l.green == 255) {
@@ -409,15 +418,15 @@ public class GameScreen extends Activity implements SensorEventListener {
             updateValuesInLayout();
 
             //debug messages
-            System.out.println("Within time range of a button");
-            System.out.println(last_color + " " + valid + " " + currentTime);
-            if (v.getId() == R.id.red && last_color == "red") {
-                System.out.println("clicked: red");
-            } else if (v.getId() == R.id.green && last_color == "green") {
-                System.out.println("clicked: green");
-            } else if (v.getId() == R.id.blue && last_color == "blue") {
-                System.out.println("clicked: blue");
-            }
+//            System.out.println("Within time range of a button");
+//            System.out.println(last_color + " " + valid + " " + currentTime);
+//            if (v.getId() == R.id.red && last_color == "red") {
+//                System.out.println("clicked: red");
+//            } else if (v.getId() == R.id.green && last_color == "green") {
+//                System.out.println("clicked: green");
+//            } else if (v.getId() == R.id.blue && last_color == "blue") {
+//                System.out.println("clicked: blue");
+//            }
         }
     }
 
