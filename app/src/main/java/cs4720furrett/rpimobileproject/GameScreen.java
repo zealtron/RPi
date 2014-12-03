@@ -52,7 +52,7 @@ public class GameScreen extends Activity implements SensorEventListener {
     private Iterator<String> striter;
     private ArrayList<String> elements = new ArrayList<String>();
     private boolean notDebug = true;
-    private long sleepTime = 200;
+    private long sleepTime = 250;
     private volatile long valid = 0;
     private volatile String last_color = "";
     private int currentCombo = 0;
