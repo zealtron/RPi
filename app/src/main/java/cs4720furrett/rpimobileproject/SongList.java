@@ -59,8 +59,8 @@ public class SongList extends Activity {
                 editor.apply();
                 SharedPreferences pref = getSharedPreferences("preferences", MODE_PRIVATE);
                 String storedUrl = pref.getString("url", null);
-                System.out.println(storedUrl);
-                if (storedUrl.equals("/rpi") || storedUrl.equals(null)) {
+                //System.out.println(storedUrl);
+                if (storedUrl== null || storedUrl.equals("/rpi") ) {
                     urlAlert();
                 } else {
                     Intent intent = new Intent(context, GameScreen.class);
