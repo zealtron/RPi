@@ -17,7 +17,7 @@
 
     <ListView
         android:layout_width="400dp"
-        android:layout_height="269dp"
+        android:layout_height="248dp"
         android:id="@+id/listView"
         android:layout_gravity="center_horizontal"
         android:background="#73dc73"/>
