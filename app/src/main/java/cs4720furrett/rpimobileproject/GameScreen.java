@@ -166,6 +166,7 @@ public class GameScreen extends Activity implements SensorEventListener {
                             Intent intent = new Intent(game, ResultsScreen.class);
                             intent.putExtra("MAX_COMBO", "" + maxCombo);
                             intent.putExtra("SCORE", "" + score);
+                            intent.putExtra("LIFE", "" + life);
                             startActivity(intent);
                             finish();
                             running = false;
