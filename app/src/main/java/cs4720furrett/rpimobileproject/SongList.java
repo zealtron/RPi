@@ -62,7 +62,7 @@ public class SongList extends Activity {
                 System.out.println(storedUrl);
                 if (storedUrl.equals("/rpi") || storedUrl.equals(null)) {
                     urlAlert();
-                }else{
+                } else {
                     Intent intent = new Intent(context, GameScreen.class);
                     startActivity(intent);
                     finish();
@@ -71,7 +71,7 @@ public class SongList extends Activity {
         });
     }
 
-    public void urlAlert(){
+    public void urlAlert() {
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         alert.setMessage("You need to set the URL of your Raspberry Pi before playing. Please head back to the Main Menu and enter your URL in the Settings page.");
         alert.setTitle("Invalid URL");
