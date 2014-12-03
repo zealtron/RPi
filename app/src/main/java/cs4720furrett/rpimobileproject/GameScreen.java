@@ -117,7 +117,7 @@ public class GameScreen extends Activity implements SensorEventListener {
         System.out.println(data);
         System.out.println(debug);
         if(data.equals("Jingle Bells")){
-            songID =  R.raw.pipi_jingle;
+            songID =  R.raw.jingle;
         }
 
 //        TextView mTextView = (TextView) findViewById(R.id.fullscreen_content);
