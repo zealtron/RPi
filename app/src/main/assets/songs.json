@@ -113,19 +113,19 @@
 	}],
 	"Jingle Bells": [
 	{
-	    "index": 32,
+	    "index": 0,
     	"color": "red"
 	},
 	{
-	    "index": 34,
+	    "index": 2,
     	"color": "red"
     },
     {
-        "index": 36,
+        "index": 4,
         "color": "red"
     },
     {
-        "index": 38,
+        "index": 6,
         "color": "red"
     }
 
