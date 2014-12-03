@@ -62,6 +62,8 @@ public class GameScreen extends Activity implements SensorEventListener {
     private int maxCombo = 0;
     private int score = 0;
     private int life = 100;
+    private int hits = 0;
+    private int misses = 0;
     private boolean noteHit;
     private AlertDialog alertDialog;
     private SensorManager sensorMan;
@@ -202,6 +204,8 @@ public class GameScreen extends Activity implements SensorEventListener {
                             intent.putExtra("MAX_COMBO", "" + maxCombo);
                             intent.putExtra("SCORE", "" + score);
                             intent.putExtra("LIFE", "" + life);
+                            intent.putExtra("HITS", "" + hits);
+                            intent.putExtra("MISSES", "" + misses);
                             startActivity(intent);
                             finish();
                             running = false;
@@ -285,7 +289,8 @@ public class GameScreen extends Activity implements SensorEventListener {
             if (l.index == 31) {
                 if (!noteHit) { //if onBtnClicked did not detect a valid note hit on previous note,
                     currentCombo = 0; //reset combo
-                    life -= 10;
+                    life -= 10; //subtract life
+                    misses++; //account for miss
                 }
                 noteHit = false; //indicate new note has not been hit yet
                 valid = System.currentTimeMillis() + sleepTime / 2;
@@ -407,8 +412,9 @@ public class GameScreen extends Activity implements SensorEventListener {
                 multiplier = 2;
             }
 
-            //handle score
+            //handle score and hits
             score += 100 * multiplier;
+            hits++;
 
             //handle life
             life += multiplier;
