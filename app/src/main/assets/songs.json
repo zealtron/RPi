@@ -333,8 +333,93 @@
     {
         "index": 131,
         "color": "green"
-    },
+    }
 
+    ],
+    "Deck the Halls": [
+    {
+        "index": 0,
+        "color": "red",
+        "comment": "deck the halls"
+    }
+    {
+        "index": 4,
+        "color": "blue"
+    }
+    {
+        "index": 8,
+        "color": "green"
+    }
+    {
+        "index": 12,
+        "color": "blue"
+    }
+    {
+        "index": 14,
+        "color": "blue"
+    }
+    {
+        "index": 16,
+        "color": "red",
+        "comment": "second"
+    }
+    {
+        "index": 20,
+        "color": "blue"
+    }
+    {
+        "index": 24,
+        "color": "green"
+    }
+    {
+        "index": 28,
+        "color": "blue"
+    }
+    {
+        "index": 30,
+        "color": "blue"
+    }
+    {
+        "index": 32,
+        "color": "green",
+        "comment": "third"
+    }
+    {
+        "index": 36,
+        "color": "blue"
+    }
+    {
+        "index": 40,
+        "color": "red"
+    }
+    {
+        "index": 42,
+        "color": "green"
+    }
+    {
+        "index": 44,
+        "color": "blue"
+    }
+    {
+        "index": 48,
+        "color": "red",
+        "comment": "fourth"
+    }
+    {
+        "index": 52,
+        "color": "green"
+    }
+    {
+        "index": 56,
+        "color": "blue"
+    }
+    {
+        "index": 60,
+        "color": "green"
+    }
+    {
+        "index": 62,
+        "color": "red"
+    }
 
-    ]
 }
