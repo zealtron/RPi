@@ -119,6 +119,9 @@ public class GameScreen extends Activity implements SensorEventListener {
         if(data.equals("Jingle Bells")){
             songID =  R.raw.jingle;
         }
+        if(data.equals("Deck the Halls")){
+            songID = R.raw.deckhall;
+        }
 
 //        TextView mTextView = (TextView) findViewById(R.id.fullscreen_content);
 //        mTextView.setText(data);
@@ -135,7 +138,7 @@ public class GameScreen extends Activity implements SensorEventListener {
             for (int x = 0; x < song.length(); x++) {
                 JSONObject light_data = song.getJSONObject(x);
                 System.out.println(light_data.toString());
-                int index = light_data.getInt("index") * -1 - 32;
+                int index = light_data.getInt("index") * -1;
                 String color = light_data.getString("color");
                 System.out.println("\t" + index + "\t" + color);
                 Light light;
@@ -192,8 +195,9 @@ public class GameScreen extends Activity implements SensorEventListener {
                 System.out.println("run: " + lights.toString());
                 long startTime, endTime;
                 MediaPlayer player = MediaPlayer.create(GameScreen.this, songID);
-                player.start();
                 boolean musicPlaying = true;
+                player.start();
+                //boolean musicShouldPlay = false;
                 while (running) {
                     if (focused) {
                         startTime = System.currentTimeMillis();
@@ -275,7 +279,7 @@ public class GameScreen extends Activity implements SensorEventListener {
                     misses++; //account for miss
                 }
                 noteHit = false; //indicate new note has not been hit yet
-                valid = System.currentTimeMillis() + sleepTime / 2;
+                valid = System.currentTimeMillis() + sleepTime;
                 if (l.red == 255) {
                     last_color = "red";
                 } else if (l.green == 255) {
@@ -376,7 +380,7 @@ public class GameScreen extends Activity implements SensorEventListener {
 
     public void onBtnClicked(View v) {
         long currentTime = System.currentTimeMillis();
-        if (currentTime >= valid && currentTime <= valid + sleepTime / 2) { //if note was hit
+        if (currentTime >= valid && currentTime <= valid + sleepTime) { //if note was hit
 
             noteHit = true; //indicate note was hit
 
@@ -386,11 +390,11 @@ public class GameScreen extends Activity implements SensorEventListener {
 
             //calculate multiplier based on current combo
             int multiplier = 1;
-            if (currentCombo > 100) {
+            if (currentCombo > 10) {
                 multiplier = 4;
-            } else if (currentCombo > 50) {
+            } else if (currentCombo > 5) {
                 multiplier = 3;
-            } else if (currentCombo > 25) {
+            } else if (currentCombo > 2) {
                 multiplier = 2;
             }
 
