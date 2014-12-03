@@ -10,6 +10,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.FloatMath;
 import android.view.View;
@@ -146,6 +147,8 @@ public class GameScreen extends Activity implements SensorEventListener {
         setupAccelerometer();
 
         System.out.println(lights.toString());
+        MediaPlayer player = MediaPlayer.create(this, R.raw.pipi_jingle);
+        player.start();
         this.runThread();
     }
 
