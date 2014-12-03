@@ -56,7 +56,7 @@ public class ResultsScreen extends Activity {
 
         // Create and populate a List of results.
         String[] results = new String[]{
-                "SCORE:\t\t\t" + score,
+                "SCORE:\t\t\t\t" + score,
                 "MAX COMBO:\t\t\t" + maxCombo,
                 "NOTES HIT:\t\t\t" + hits,
                 "NOTES MISSED:\t\t" + misses
