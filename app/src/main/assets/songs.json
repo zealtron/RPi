@@ -157,7 +157,184 @@
     {
          "index": 31,
          "color": "green"
-    }
+    },
+    {
+         "index": 33,
+         "color": "blue"
+    },
+    {
+         "index": 35,
+         "color": "red"
+    },
+    {
+         "index": 39,
+         "color": "red"
+    },
+    {
+         "index": 41,
+         "color": "blue"
+    },
+    {
+         "index": 43,
+         "color": "green"
+    },
+    {
+         "index": 47,
+         "color": "blue"
+    },
+    {
+         "index": 49,
+         "color": "green"
+    },
+    {
+         "index": 51,
+         "color": "red"
+    },
+    {
+         "index": 55,
+         "color": "green",
+         "comment": "bells on bobtail"
+    },
+    {
+         "index": 57,
+         "color": "blue"
+    },
+    {
+         "index": 59,
+         "color": "red"
+    },
+    {
+         "index": 63,
+         "color": "red"
+    },
+    {
+         "index": 65,
+         "color": "blue"
+    },
+    {
+         "index": 67,
+         "color": "green"
+    },
+    {
+         "index": 71,
+         "color": "green"
+    },
+    {
+         "index": 73,
+         "color": "blue"
+    },
+    {
+         "index": 75,
+         "color": "red"
+    },
+    {
+         "index": 79,
+         "color": "red"
+    },
+    {
+         "index": 81,
+         "color": "blue"
+    },
+    {
+         "index": 83,
+         "color": "green"
+    },
+    {
+         "index": 85,
+         "color": "blue"
+    },
+    {
+         "index": 87,
+         "color": "red",
+         "comment": "chorus"
+    },
+    {
+         "index": 89,
+         "color": "green"
+    },
+    {
+         "index": 91,
+         "color": "blue"
+    },
+    {
+         "index": 93,
+         "color": "green"
+    },
+    {
+         "index": 95,
+         "color": "red"
+    },
+    {
+        "index": 97,
+        "color": "blue"
+    },
+    {
+        "index": 99,
+        "color": "green"
+    },
+    {
+        "index": 103,
+        "color": "green",
+        "comment": "oh what fun"
+    },
+    {
+         "index": 105,
+         "color": "red"
+    },
+    {
+         "index": 107,
+         "color": "blue"
+    },
+    {
+         "index": 109,
+         "color": "red"
+    },
+    {
+         "index": 111,
+         "color": "green"
+    },
+    {
+         "index": 113,
+         "color": "blue"
+    },
+    {
+        "index": 115,
+        "color": "red"
+    },
+    {
+        "index": 117,
+        "color": "blue"
+    },
+    {
+        "index": 119,
+        "color": "red",
+        "comment": "jingle bells, x2"
+    },
+    {
+         "index": 121,
+         "color": "green"
+    },
+    {
+         "index": 123,
+         "color": "blue"
+    },
+    {
+         "index": 125,
+         "color": "green"
+    },
+    {
+         "index": 127,
+         "color": "red"
+    },
+    {
+        "index": 129,
+        "color": "blue"
+    },
+    {
+        "index": 131,
+        "color": "green"
+    },
+
 
     ]
 }
