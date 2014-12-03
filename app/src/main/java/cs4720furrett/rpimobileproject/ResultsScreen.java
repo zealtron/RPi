@@ -26,6 +26,8 @@ public class ResultsScreen extends Activity {
     private String maxCombo = "";
     private String life = "";
     private String pass = "";
+    private String hits = "";
+    private String misses = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +39,9 @@ public class ResultsScreen extends Activity {
         score = getIntent().getExtras().getString("SCORE");
         maxCombo = getIntent().getExtras().getString("MAX_COMBO");
         life = getIntent().getExtras().getString("LIFE");
+        hits = getIntent().getExtras().getString("HITS");
+        misses = getIntent().getExtras().getString("MISSES");
+
         getActionBar().setTitle("Results of " + name);
         ImageView image = (ImageView) findViewById(R.id.result);
         if(life.equals("0")){
@@ -50,7 +55,12 @@ public class ResultsScreen extends Activity {
         ListView mainListView = (ListView) findViewById(R.id.listView);
 
         // Create and populate a List of results.
-        String[] results = new String[]{"Score: " + score, "MAX Combo: " + maxCombo};
+        String[] results = new String[]{
+                "SCORE:\t\t\t" + score,
+                "MAX COMBO:\t\t\t" + maxCombo,
+                "NOTES HIT:\t\t\t" + hits,
+                "NOTES MISSED:\t\t" + misses
+        };
         ArrayList<String> resultsList = new ArrayList<String>();
         resultsList.addAll(Arrays.asList(results));
 
