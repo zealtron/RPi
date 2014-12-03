@@ -1,7 +1,9 @@
 package cs4720furrett.rpimobileproject;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.hardware.Sensor;
@@ -34,7 +36,7 @@ public class MySettings extends Activity implements SensorEventListener {
     private float mAccelLast;
     private boolean motionOn;
     private ToggleButton motion_toggle;
-
+    private AlertDialog alertDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,6 +72,18 @@ public class MySettings extends Activity implements SensorEventListener {
 
         shakeBar.setProgress(pref.getInt("MOTION", 50));
         setupAccelerometer();
+        buildDialog();
+    }
+    public void buildDialog() {
+        //setting up the dialog
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setMessage("Shake protection pauses the game if the device moves.  Slide to the left to increase sensitivity!")
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        onResume();
+                    }
+                });
+        alertDialog = builder.create();
     }
 
     public void setupAccelerometer() {
@@ -178,6 +192,9 @@ public class MySettings extends Activity implements SensorEventListener {
         editor.apply();
     }
 
+    public void whatsThis(View view) {
+alertDialog.show();
+    }
     public void toggleMotion(View view) {
         motionOn = ((String) motion_toggle.getText()).compareTo("ON") == 0;
 

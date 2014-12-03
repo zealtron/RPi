@@ -62,6 +62,7 @@
                 android:height="30dp"
                 android:textColor="#ffb56400"
                 android:layout_alignParentTop="true"
+                android:onClick="whatsThis"
                 android:layout_toRightOf="@id/motionProtection_title"
                  />
 
