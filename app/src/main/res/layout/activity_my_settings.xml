@@ -6,12 +6,12 @@
     >
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="fill_parent"
     >
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="fill_parent"
         android:id="@+id/relativeLayout1">
 
         <RelativeLayout
@@ -76,6 +76,7 @@
             android:id="@+id/connectionPanel"
             android:layout_below="@+id/motionProtectionPanel"
             android:layout_marginTop="0dp"
+            android:layout_marginBottom="100dp"
             android:layout_centerHorizontal="true">
 
 
@@ -110,43 +111,15 @@
                 android:layout_marginLeft="0dp" />
 
         </RelativeLayout>
-<RelativeLayout
-    android:layout_width="500dp"
-    android:layout_height="100dp"
-    android:layout_below="@+id/connectionPanel"
-    android:layout_marginTop="0dp"
-    android:layout_centerHorizontal="true">
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/debug"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:id="@+id/textView"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <ToggleButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Debug ToggleButton"
-        android:id="@+id/debugToggle"
-        android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:onClick="setDebug"/>
-
-    </RelativeLayout>
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:layout_centerHorizontal="true"
-            android:text="Done"
-            android:layout_alignParentBottom="true"
-            android:onClick="done"
-            />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_centerHorizontal="true"
+                android:text="Done"
+                android:layout_alignParentBottom="true"
+                android:onClick="done"
+                />
 
     </RelativeLayout>
 
