@@ -32,7 +32,8 @@
         android:layout_height="wrap_content"
         android:text="Back to Menu"
         android:id="@+id/button3"
-        android:onClick="switchToMainMenu" />
+        android:onClick="switchToMainMenu"
+        android:layout_gravity="bottom"/>
 
 
 </LinearLayout>
