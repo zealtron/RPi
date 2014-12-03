@@ -113,229 +113,151 @@
 	}],
 	"Jingle Bells": [
 	{
-	    "index": 7,
+	    "index": 0,
     	"color": "green",
-    	"comment": "first downbeat"
+    	"comment": "dashing"
 	},
 	{
-	    "index": 9,
-    	"color": "green"
+	    "index": 4,
+    	"color": "blue"
     },
     {
-        "index": 11,
-        "color": "green"
-    },
-    {
-        "index": 13,
-        "color": "blue"
-    },
-    {
-         "index": 15,
-         "color": "green"
-    },
-    {
-         "index": 17,
-         "color": "blue"
-    },
-    {
-         "index": 19,
-         "color": "red"
-    },
-    {
-         "index": 23,
-         "color": "red",
-         "comment": "dashing through..."
-    },
-    {
-         "index": 25,
-         "color": "blue"
-    },
-    {
-         "index": 27,
-         "color": "green"
-    },
-    {
-         "index": 31,
-         "color": "green"
-    },
-    {
-         "index": 33,
-         "color": "blue"
-    },
-    {
-         "index": 35,
-         "color": "red"
-    },
-    {
-         "index": 39,
-         "color": "red"
-    },
-    {
-         "index": 41,
-         "color": "blue"
-    },
-    {
-         "index": 43,
-         "color": "green"
-    },
-    {
-         "index": 47,
-         "color": "blue"
-    },
-    {
-         "index": 49,
-         "color": "green"
-    },
-    {
-         "index": 51,
-         "color": "red"
-    },
-    {
-         "index": 55,
-         "color": "green",
-         "comment": "bells on bobtail"
-    },
-    {
-         "index": 57,
-         "color": "blue"
-    },
-    {
-         "index": 59,
-         "color": "red"
-    },
-    {
-         "index": 63,
-         "color": "red"
-    },
-    {
-         "index": 65,
-         "color": "blue"
-    },
-    {
-         "index": 67,
-         "color": "green"
-    },
-    {
-         "index": 71,
-         "color": "green"
-    },
-    {
-         "index": 73,
-         "color": "blue"
-    },
-    {
-         "index": 75,
-         "color": "red"
-    },
-    {
-         "index": 79,
-         "color": "red"
-    },
-    {
-         "index": 81,
-         "color": "blue"
-    },
-    {
-         "index": 83,
-         "color": "green"
-    },
-    {
-         "index": 85,
-         "color": "blue"
-    },
-    {
-         "index": 87,
-         "color": "red",
-         "comment": "chorus"
-    },
-    {
-         "index": 89,
-         "color": "green"
-    },
-    {
-         "index": 91,
-         "color": "blue"
-    },
-    {
-         "index": 93,
-         "color": "green"
-    },
-    {
-         "index": 95,
-         "color": "red"
-    },
-    {
-        "index": 97,
-        "color": "blue"
-    },
-    {
-        "index": 99,
-        "color": "green"
-    },
-    {
-        "index": 103,
-        "color": "green",
-        "comment": "oh what fun"
-    },
-    {
-         "index": 105,
-         "color": "red"
-    },
-    {
-         "index": 107,
-         "color": "blue"
-    },
-    {
-         "index": 109,
-         "color": "red"
-    },
-    {
-         "index": 111,
-         "color": "green"
-    },
-    {
-         "index": 113,
-         "color": "blue"
-    },
-    {
-        "index": 115,
+        "index": 8,
         "color": "red"
     },
     {
-        "index": 117,
+        "index": 12,
         "color": "blue"
     },
     {
-        "index": 119,
-        "color": "red",
-        "comment": "jingle bells, x2"
-    },
-    {
-         "index": 121,
-         "color": "green"
-    },
-    {
-         "index": 123,
-         "color": "blue"
-    },
-    {
-         "index": 125,
-         "color": "green"
-    },
-    {
-         "index": 127,
+         "index": 16,
          "color": "red"
     },
     {
-        "index": 129,
-        "color": "blue"
+         "index": 20,
+         "color": "green"
     },
     {
-        "index": 131,
-        "color": "green"
+         "index": 24,
+         "color": "blue"
+    },
+    {
+         "index": 28,
+         "color": "red"
+    },
+    {
+         "index": 32,
+         "color": "blue",
+         "comment": "bells on bobtail"
+    },
+    {
+         "index": 36,
+         "color": "green"
+    },
+    {
+         "index": 40,
+         "color": "green"
+    },
+    {
+         "index": 44,
+         "color": "blue"
+    },
+    {
+         "index": 48,
+         "color": "red"
+    },
+    {
+         "index": 52,
+         "color": "blue"
+    },
+    {
+         "index": 56,
+         "color": "green"
+    },
+    {
+         "index": 58,
+         "color": "blue"
+    },
+    {
+         "index": 60,
+         "color": "red"
+    },
+    {
+         "index": 64,
+         "color": "green",
+         "comment": "jingle"
+    },
+    {
+         "index": 68,
+         "color": "blue"
+    },
+    {
+         "index": 72,
+         "color": "red"
+    },
+    {
+         "index": 76,
+         "color": "blue"
+    },
+    {
+         "index": 80,
+         "color": "green"
+    },
+    {
+         "index": 84,
+         "color": "red"
+    },
+    {
+         "index": 88,
+         "color": "blue"
+    },
+    {
+         "index": 92,
+         "color": "red"
+    },
+    {
+         "index": 94,
+         "color": "green"
+    },
+    {
+         "index": 96,
+         "color": "red",
+         "comment": "jingle2"
+    },
+    {
+         "index": 100,
+         "color": "blue"
+    },
+    {
+         "index": 104,
+         "color": "green"
+    },
+    {
+         "index": 108,
+         "color": "blue"
+    },
+    {
+         "index": 112,
+         "color": "red"
+    },
+    {
+         "index": 116,
+         "color": "green"
+    },
+    {
+         "index": 120,
+         "color": "red"
+    },
+    {
+         "index": 122,
+         "color": "red"
+    },
+    {
+         "index": 124,
+         "color": "blue"
     }
-
     ],
+
     "Deck the Halls": [
     {
         "index": 0,
