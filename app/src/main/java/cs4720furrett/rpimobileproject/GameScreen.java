@@ -1,9 +1,17 @@
 package cs4720furrett.rpimobileproject;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.util.FloatMath;
 import android.view.View;
 import android.widget.TextView;
 
@@ -24,12 +32,13 @@ import java.util.Iterator;
 import java.util.Random;
 
 
-public class GameScreen extends Activity{
-
+public class GameScreen extends Activity implements SensorEventListener {
+    final Context context = this;
     private final long SEED = 9001;
     private final int speed = 100;
     //Handles what is returned from the page
     ResponseHandler responseHandler;
+    private volatile boolean running = true;
     private String postURL;
     private GameScreen game;
     private ArrayList<Light> lights = new ArrayList<Light>();
@@ -51,7 +60,14 @@ public class GameScreen extends Activity{
     private int score = 0;
     private int life = 100;
     private boolean noteHit;
-
+    private AlertDialog alertDialog;
+    private SensorManager sensorMan;
+    private Sensor accelerometer;
+    private float[] mGravity;
+    private float mAccel;
+    private float mAccelCurrent;
+    private float mAccelLast;
+    private boolean focused = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,9 +81,19 @@ public class GameScreen extends Activity{
             System.out.println(postURL);
             if (!postURL.startsWith("http://")) postURL = "http://" + postURL;
         }
-        httpClient = new DefaultHttpClient();
-        httpPost = new HttpPost(postURL);
-        responseHandler = new BasicResponseHandler();
+        String debug = pref.getString("DEBUG", "OFF");
+
+        if (debug.compareTo("ON") == 0) {
+            notDebug = false;
+        }
+
+        if (storedUrl != null && storedUrl.compareTo("") != 0) {
+            httpClient = new DefaultHttpClient();
+            httpPost = new HttpPost(postURL);
+            responseHandler = new BasicResponseHandler();
+        } else {
+            notDebug = false;
+        }
         builder = new StringBuilder();
         lightsbuilder = new StringBuilder();
         rng = new Random(SEED);
@@ -76,13 +102,9 @@ public class GameScreen extends Activity{
         if (data == null) {
             System.out.println("blank song received!");
         }
-
-        String debug = pref.getString("DEBUG", "OFF");
         System.out.println(data);
         System.out.println(debug);
-        if (debug.compareTo("ON") == 0) {
-            notDebug = false;
-        }
+
 //        TextView mTextView = (TextView) findViewById(R.id.fullscreen_content);
 //        mTextView.setText(data);
 
@@ -119,6 +141,7 @@ public class GameScreen extends Activity{
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        setupAccelerometer();
 
         System.out.println(lights.toString());
         this.runThread();
@@ -126,73 +149,53 @@ public class GameScreen extends Activity{
 
     public void runThread() {
 
-        new Thread(){
-            private boolean running = true;
+        new Thread() {
 
-            public void setRunning(boolean running) {
-                this.running = running;
-            }
 
             public void run() {
-                System.out.println("run: "+lights.toString());
+                System.out.println("run: " + lights.toString());
                 long startTime, endTime;
                 while (running) {
-                    startTime = System.currentTimeMillis();
+                    if (focused) {
+                        startTime = System.currentTimeMillis();
 
-                    //if song ends or fail
-                    if(lights.size() == 0 || life <= 0){
-                        Intent intent = new Intent(game, ResultsScreen.class);
-                        intent.putExtra("MAX_COMBO", "" + maxCombo);
-                        intent.putExtra("SCORE", "" + score);
-                        startActivity(intent);
-                        finish();
-                        setRunning(false);
+                        //if song ends or fail
+                        if (lights.size() == 0 || life <= 0) {
+                            Intent intent = new Intent(game, ResultsScreen.class);
+                            intent.putExtra("MAX_COMBO", "" + maxCombo);
+                            intent.putExtra("SCORE", "" + score);
+                            startActivity(intent);
+                            finish();
+                            running = false;
+                            focused = false;
+                        }
+
+                        sendPost();
+                        endTime = System.currentTimeMillis();
+
+                        try {
+                            this.sleep(sleepTime - (endTime - startTime));
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    updateValuesInLayout();
+                                }
+                            });
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                            break;
+                        } catch (IllegalArgumentException e) {
+                            System.out.print("too slow: ");
+                            System.out.print(endTime - startTime);
+                        }
+                        System.out.println(count);
+                        count++;
                     }
-
-                    sendPost();
-                    endTime = System.currentTimeMillis();
-
-                    try {
-                        this.sleep(sleepTime - (endTime - startTime));
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run(){
-                                updateValuesInLayout();
-                            }
-                        });
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                        break;
-                    } catch (IllegalArgumentException e) {
-                        System.out.print("too slow: ");
-                        System.out.print(endTime - startTime);
-                    }
-                    count++;
                 }
             }
         }.start();
 
     }
-/*
-    @Override
-    protected void onPause() {
-        super.onPause();
-        try {
-            thread.wait();
-            System.out.println("thread wait");
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if(thread.getState() == Thread.State.WAITING) {
-            System.out.println("thread notify");
-            thread.notify();
-        }
-    } */
 
     //Disable Back Button
     @Override
@@ -360,6 +363,72 @@ public class GameScreen extends Activity{
                 System.out.println("clicked: blue");
             }
         }
+    }
+
+    public void setupAccelerometer() {
+        //setting up the accelerometer
+        sensorMan = (SensorManager) getSystemService(SENSOR_SERVICE);
+        accelerometer = sensorMan.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        mAccel = 0.00f;
+        mAccelCurrent = SensorManager.GRAVITY_EARTH;
+        mAccelLast = SensorManager.GRAVITY_EARTH;
+        sensorMan.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_UI);
+        buildDialog();
+    }
+
+    public void buildDialog() {
+        //setting up the dialog
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setMessage("You moved the Android device!")
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        onResume();
+                    }
+                });
+        alertDialog = builder.create();
+    }
+
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+            // Shake detection
+            mGravity = event.values.clone();
+            float x = mGravity[0];
+            float y = mGravity[1];
+            float z = mGravity[2];
+            mAccelLast = mAccelCurrent;
+            mAccelCurrent = FloatMath.sqrt(x * x + y * y + z * z);
+            float delta = mAccelCurrent - mAccelLast;
+            mAccel = mAccel * 0.9f + delta;
+            // Make this higher or lower according to how much
+            // motion you want to detect
+            if (mAccel > 3) {
+
+                alertDialog.show();
+                onPause();
+            }
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        sensorMan.registerListener((android.hardware.SensorEventListener) this, accelerometer, SensorManager.SENSOR_DELAY_UI);
+        focused = true;
+        System.out.println("Resumed");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        sensorMan.unregisterListener((android.hardware.SensorEventListener) this);
+        focused = false;
+        System.out.println("Paused");
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
     }
 
     public class Light {
