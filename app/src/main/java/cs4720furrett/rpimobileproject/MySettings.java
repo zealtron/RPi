@@ -9,6 +9,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.FloatMath;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,13 +25,15 @@ public class MySettings extends Activity implements SensorEventListener {
     private SharedPreferences pref;
     private SharedPreferences.Editor editor;
     private String url = "";
-    private ToggleButton toggle;
+    private ToggleButton debug_toggle;
     private SensorManager sensorMan;
     private Sensor accelerometer;
     private float[] mGravity;
     private float mAccel;
     private float mAccelCurrent;
     private float mAccelLast;
+    private boolean motionOn;
+    private ToggleButton motion_toggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,24 +43,16 @@ public class MySettings extends Activity implements SensorEventListener {
         setContentView(R.layout.activity_my_settings);
         getActionBar().setTitle("Settings");
 
-        toggle = (ToggleButton) findViewById(R.id.debugToggle);
+        debug_toggle = (ToggleButton) findViewById(R.id.debugToggle);
         String debug = pref.getString("DEBUG", "OFF");
-        toggle.setText(debug);
+        debug_toggle.setText(debug);
+
+        motionOn = pref.getBoolean("MOTION_DETECTION", false);
+        motion_toggle = (ToggleButton) findViewById(R.id.motionProtection_toggle);
+
+        motion_toggle.setChecked(motionOn);
 
 
-        SeekBar noteBar = (SeekBar) findViewById(R.id.noteSpeed_slider);
-        noteBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            public void onStopTrackingTouch(SeekBar bar) {
-            }
-
-            public void onStartTrackingTouch(SeekBar bar) {
-            }
-
-            public void onProgressChanged(SeekBar bar, int paramInt, boolean paramBoolean) {
-                editor.putInt("NOTE_SPEED", paramInt);
-                System.out.println(paramInt);
-            }
-        });
         SeekBar shakeBar = (SeekBar) findViewById(R.id.motionProtection_slider);
         shakeBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             public void onStopTrackingTouch(SeekBar bar) {
@@ -68,9 +63,12 @@ public class MySettings extends Activity implements SensorEventListener {
 
             public void onProgressChanged(SeekBar bar, int paramInt, boolean paramBoolean) {
                 editor.putInt("MOTION", paramInt);
+                editor.apply();
                 System.out.println(paramInt);
             }
         });
+
+        shakeBar.setProgress(pref.getInt("MOTION", 50));
         setupAccelerometer();
     }
 
@@ -86,7 +84,7 @@ public class MySettings extends Activity implements SensorEventListener {
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-        if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+        if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER && motionOn) {
             // Shake detection
             mGravity = event.values.clone();
             float x = mGravity[0];
@@ -98,9 +96,18 @@ public class MySettings extends Activity implements SensorEventListener {
             mAccel = mAccel * 0.9f + delta;
             // Make this higher or lower according to how much
             // motion you want to detect
-            if (mAccel > 3) {
-                CharSequence text = "You shook the device!";
-                Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
+            double threshold = (double) pref.getInt("MOTION", 50)*-1.0 + 100.0;
+            if (mAccel > 3.0 * threshold / 50.0) {
+                CharSequence text = "You shook the device! (threshold = "+threshold+")";
+                final Toast toast = Toast.makeText(context, text, Toast.LENGTH_SHORT);
+                toast.show();
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        toast.cancel();
+                    }
+                }, 200);
                 //alertDialog.show();
             }
         }
@@ -167,11 +174,15 @@ public class MySettings extends Activity implements SensorEventListener {
     }
 
     public void setDebug(View view) {
-        String value = (toggle.getText() == "ON") ? "ON" : "OFF";
-
-        editor.putString("DEBUG", (String) toggle.getText());
+        editor.putString("DEBUG", (String) debug_toggle.getText());
         editor.apply();
-        editor.commit();
+    }
+
+    public void toggleMotion(View view) {
+        motionOn = ((String) motion_toggle.getText()).compareTo("ON") == 0;
+
+        editor.putBoolean("MOTION_DETECTION", motionOn);
+        editor.apply();
     }
 }
 

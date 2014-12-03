@@ -44,10 +44,10 @@ public class ResultsScreen extends Activity {
 
         getActionBar().setTitle("Results of " + name);
         ImageView image = (ImageView) findViewById(R.id.result);
-        if(life.equals("0")){
+        if (life.equals("0")) {
             image.setImageResource(R.drawable.fail);
             pass = "failed";
-        }else{
+        } else {
             image.setImageResource(R.drawable.clear);
             pass = "cleared";
         }
