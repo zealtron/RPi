@@ -83,8 +83,8 @@ public class GameScreen extends Activity implements SensorEventListener {
     private float mAccelLast;
     private boolean focused = true;
     private int songID;
-    private boolean musicShouldPlay = false;
-    private boolean killPlayer = false;
+    private boolean songStarted = false;
+    private boolean songEnded = false;
     private SharedPreferences pref;
     private boolean motionOn;
     private TextView comboView;
@@ -184,23 +184,14 @@ public class GameScreen extends Activity implements SensorEventListener {
                 System.out.println("run: " + lights.toString());
                 long startTime, endTime;
                 player = MediaPlayer.create(GameScreen.this, songID);
-                boolean musicPlaying = true;
                 player.start();
+                songStarted = true;
                 //boolean musicShouldPlay = false;
                 while (running) {
                     if (focused) {
                         startTime = System.currentTimeMillis();
-                        if (musicPlaying && !musicShouldPlay){
-                            player.pause();
-                            musicPlaying = false;
-                        }
-                        if (!musicPlaying && musicShouldPlay){
-                            player.start();
-                            musicPlaying = true;
-                        }
                         //if song ends or fail
                         if (lights.size() == 0 || life <= 0) {
-//                            killPlayer = true;
                             Intent intent = new Intent(game, ResultsScreen.class);
                             intent.putExtra("MAX_COMBO", "" + maxCombo);
                             intent.putExtra("SCORE", "" + score);
@@ -212,6 +203,7 @@ public class GameScreen extends Activity implements SensorEventListener {
                             finish();
                             running = false;
                             focused = false;
+                            songEnded = true;
                             player.release();
                         }
 
@@ -256,12 +248,30 @@ public class GameScreen extends Activity implements SensorEventListener {
                     public void onClick(DialogInterface dialog, int which){
                         switch(which){
                             case 0:
-                                
+                                Intent intent = new Intent(context, GameScreen.class);
+                                startActivity(intent);
+                                finish();
+                                running = false;
+                                focused = false;
+                                songEnded = true;
+                                player.release();
+                                break;
                             case 1:
+                                Intent intent2 = new Intent(context, SongList.class);
+                                startActivity(intent2);
+                                finish();
+                                running = false;
+                                focused = false;
+                                songEnded = true;
+                                player.release();
+                                break;
                             case 2:
+                                onResume();
+                                break;
                         }
                     }
                 });
+        onPause();
         menu.create().show();
 
     }
@@ -480,9 +490,8 @@ public class GameScreen extends Activity implements SensorEventListener {
         super.onResume();
         sensorMan.registerListener((android.hardware.SensorEventListener) this, accelerometer, SensorManager.SENSOR_DELAY_UI);
         focused = true;
-        musicShouldPlay = true;
         System.out.println("Resumed");
-        if(player != null) {
+        if(songStarted) {
             player.start();
         }
     }
@@ -492,9 +501,8 @@ public class GameScreen extends Activity implements SensorEventListener {
         super.onPause();
         sensorMan.unregisterListener((android.hardware.SensorEventListener) this);
         focused = false;
-        musicShouldPlay = false;
         System.out.println("Paused");
-        if(player != null) {
+        if(!songEnded) {
             player.pause();
         }
     }
