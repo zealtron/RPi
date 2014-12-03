@@ -9,6 +9,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.FloatMath;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -62,6 +63,7 @@ public class MySettings extends Activity implements SensorEventListener {
 
             public void onProgressChanged(SeekBar bar, int paramInt, boolean paramBoolean) {
                 editor.putInt("MOTION", paramInt);
+                editor.apply();
                 System.out.println(paramInt);
             }
         });
@@ -94,9 +96,18 @@ public class MySettings extends Activity implements SensorEventListener {
             mAccel = mAccel * 0.9f + delta;
             // Make this higher or lower according to how much
             // motion you want to detect
-            if (mAccel > 3) {
-                CharSequence text = "You shook the device!";
-                Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
+            double threshold = (double) pref.getInt("MOTION", 50)*-1.0 + 100.0;
+            if (mAccel > 3.0 * threshold / 50.0) {
+                CharSequence text = "You shook the device! (threshold = "+threshold+")";
+                final Toast toast = Toast.makeText(context, text, Toast.LENGTH_SHORT);
+                toast.show();
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        toast.cancel();
+                    }
+                }, 200);
                 //alertDialog.show();
             }
         }
