@@ -86,6 +86,10 @@ public class GameScreen extends Activity implements SensorEventListener {
     private boolean killPlayer = false;
     private SharedPreferences pref;
     private boolean motionOn;
+    private TextView comboView;
+    private TextView lifeView;
+    private TextView scoreView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -132,6 +136,9 @@ public class GameScreen extends Activity implements SensorEventListener {
 
 //        TextView mTextView = (TextView) findViewById(R.id.fullscreen_content);
 //        mTextView.setText(data);
+        comboView = (TextView) findViewById(R.id.combo);
+        lifeView = (TextView) findViewById(R.id.life);
+        scoreView = (TextView) findViewById(R.id.score);
 
         String songsInJSON = loadJSONFromAsset();
         System.out.println("songJSON");
@@ -381,10 +388,9 @@ public class GameScreen extends Activity implements SensorEventListener {
     }
 
     public void updateValuesInLayout() {
-        TextView comboView = (TextView) findViewById(R.id.combo);
         comboView.setText("" + currentCombo);
-        TextView lifeView = (TextView) findViewById(R.id.life);
         lifeView.setText("" + life);
+        scoreView.setText("" + score);
     }
 
     public void onBtnClicked(View v) {
