@@ -54,8 +54,8 @@ public class SongList extends Activity {
                 TextView clickedView = (TextView) view;
                 SharedPreferences.Editor editor = getSharedPreferences("preferences", MODE_PRIVATE).edit();
                 editor.putString("CLICKED_SONG", (String) clickedView.getText());
-                editor.commit();
-
+                editor.apply();
+                System.out.println("Applied song");
                 Intent intent = new Intent(context, GameScreen.class);
                 startActivity(intent);
                 finish();
