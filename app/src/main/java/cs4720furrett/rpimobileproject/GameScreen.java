@@ -10,6 +10,9 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.media.MediaPlayer;
+import android.media.SoundPool;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.util.FloatMath;
 import android.view.View;
@@ -70,9 +73,16 @@ public class GameScreen extends Activity implements SensorEventListener {
     private float mAccelCurrent;
     private float mAccelLast;
     private boolean focused = true;
+    private int songID;
+    //private MediaPlayer player;
+    private SoundPool soundPool;
+    private boolean plays = false, loaded = false;
+    private float actVolume, maxVolume, volume;
+    private AudioManager audioManager;
+    private int songCounter=0;
+    private int soundPoolID;
     private SharedPreferences pref;
     private boolean motionOn;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -110,6 +120,24 @@ public class GameScreen extends Activity implements SensorEventListener {
         getActionBar().setTitle("Now Playing " + data);
         System.out.println(data);
         System.out.println(debug);
+        //audio settings
+        audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
+        actVolume = (float) audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+        maxVolume = (float) audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+        volume  = actVolume/maxVolume;
+        //Load song
+        soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
+        soundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
+            @Override
+            public void onLoadComplete(SoundPool soundPool, int sampleId, int status) {
+                loaded = true;
+                System.out.println("Loaded song");
+            }
+        });
+        if(data.equals("Jingle Bells")){
+            songID =  R.raw.pipi_jingle;
+        }
+        soundPoolID = soundPool.load(this, songID, 1);
 
 //        TextView mTextView = (TextView) findViewById(R.id.fullscreen_content);
 //        mTextView.setText(data);
@@ -150,6 +178,7 @@ public class GameScreen extends Activity implements SensorEventListener {
         setupAccelerometer();
 
         System.out.println(lights.toString());
+
         this.runThread();
     }
 
@@ -159,6 +188,10 @@ public class GameScreen extends Activity implements SensorEventListener {
             public void run() {
                 System.out.println("run: " + lights.toString());
                 long startTime, endTime;
+                //player = MediaPlayer.create(GameScreen.this, songID);
+                //player.start();
+                playSound();
+
                 while (running) {
                     if (focused) {
                         startTime = System.currentTimeMillis();
@@ -175,6 +208,7 @@ public class GameScreen extends Activity implements SensorEventListener {
                             finish();
                             running = false;
                             focused = false;
+                            stopSound();
                         }
 
                         sendPost();
@@ -201,6 +235,31 @@ public class GameScreen extends Activity implements SensorEventListener {
                 }
             }
         }.start();
+    }
+
+    public void playSound() {
+        if(loaded && !plays) {
+            soundPool.play(soundPoolID, volume, volume, 1, 0, 1f);
+            plays = true;
+            songCounter++;
+            System.out.println("Play music");
+        }
+    }
+
+    public void pauseSound() {
+        if(plays) {
+            soundPool.pause(soundPoolID);
+            soundPoolID = soundPool.load(this, songID, songCounter);
+            plays = false;
+        }
+    }
+
+    public void stopSound(){
+        if(plays){
+            soundPool.stop(soundPoolID);
+            soundPoolID = soundPool.load(this, songID, songCounter);
+            plays=false;
+        }
     }
 
     //Disable Back Button
@@ -387,7 +446,7 @@ public class GameScreen extends Activity implements SensorEventListener {
     public void buildDialog() {
         //setting up the dialog
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setMessage("You moved the Android device!")
+        builder.setMessage("Shake protection paused the game!")
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         onResume();
@@ -423,6 +482,7 @@ public class GameScreen extends Activity implements SensorEventListener {
         super.onResume();
         sensorMan.registerListener((android.hardware.SensorEventListener) this, accelerometer, SensorManager.SENSOR_DELAY_UI);
         focused = true;
+        if(soundPool != null) playSound();
         System.out.println("Resumed");
     }
 
@@ -431,6 +491,7 @@ public class GameScreen extends Activity implements SensorEventListener {
         super.onPause();
         sensorMan.unregisterListener((android.hardware.SensorEventListener) this);
         focused = false;
+        pauseSound();
         System.out.println("Paused");
     }
 
