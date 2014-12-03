@@ -167,6 +167,15 @@
             android:layout_weight="0.15">
         </Space>
 
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Menu"
+            android:id="@+id/button5"
+            android:onClick="Menu"
+            android:layout_gravity="bottom" />
+
     </LinearLayout>
 
 

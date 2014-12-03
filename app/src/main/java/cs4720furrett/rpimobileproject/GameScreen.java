@@ -16,6 +16,7 @@ import android.media.AudioManager;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.FloatMath;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
@@ -99,7 +100,6 @@ public class GameScreen extends Activity implements SensorEventListener {
         String storedUrl = pref.getString("url", null);
         if (storedUrl != null) {
             postURL = pref.getString("url", "no url defined");
-            System.out.println(postURL);
             if (!postURL.startsWith("http://")) postURL = "http://" + postURL;
         }
         String debug = pref.getString("DEBUG", "OFF");
@@ -134,8 +134,6 @@ public class GameScreen extends Activity implements SensorEventListener {
             songID = R.raw.deckhall;
         }
 
-//        TextView mTextView = (TextView) findViewById(R.id.fullscreen_content);
-//        mTextView.setText(data);
         comboView = (TextView) findViewById(R.id.combo);
         lifeView = (TextView) findViewById(R.id.life);
         scoreView = (TextView) findViewById(R.id.score);
@@ -176,31 +174,8 @@ public class GameScreen extends Activity implements SensorEventListener {
         setupAccelerometer();
 
         System.out.println(lights.toString());
-//        this.initializeMusic();
         this.runThread();
     }
-
-//    public void initializeMusic() {
-//        new Thread(){
-//
-//            public void run() {
-//                MediaPlayer player = MediaPlayer.create(GameScreen.this, songID);
-//                player.start();
-//                boolean musicPlaying = true;
-//                while(!killPlayer) {
-//                    if (musicPlaying && !musicShouldPlay){
-//                        player.pause();
-//                        musicPlaying = false;
-//                    }
-//                    if (!musicPlaying && musicShouldPlay){
-//                        player.start();
-//                        musicPlaying = true;
-//                    }
-//                }
-//                player.release();
-//            }
-//        }.start();
-//    }
 
     public void runThread() {
 
@@ -270,6 +245,25 @@ public class GameScreen extends Activity implements SensorEventListener {
     //Disable Back Button
     @Override
     public void onBackPressed() {
+    }
+
+    public void Menu(View view){
+        AlertDialog.Builder menu = new AlertDialog.Builder(this);
+        menu.setTitle("In-Game Menu");
+        menu.setItems(new CharSequence[]
+                {"Restart", "Quit Song", "Resume"},
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which){
+                        switch(which){
+                            case 0:
+                                
+                            case 1:
+                            case 2:
+                        }
+                    }
+                });
+        menu.create().show();
+
     }
 
     public void sendPost() {
