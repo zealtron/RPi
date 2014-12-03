@@ -68,13 +68,15 @@ public class GameScreen extends Activity implements SensorEventListener {
     private float mAccelCurrent;
     private float mAccelLast;
     private boolean focused = true;
+    private SharedPreferences pref;
+    private boolean motionOn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_screen);
         game = this;
-        SharedPreferences pref = getSharedPreferences("preferences", MODE_PRIVATE);
+        pref = getSharedPreferences("preferences", MODE_PRIVATE);
         String storedUrl = pref.getString("url", null);
         if (storedUrl != null) {
             postURL = pref.getString("url", "no url defined");
@@ -82,7 +84,7 @@ public class GameScreen extends Activity implements SensorEventListener {
             if (!postURL.startsWith("http://")) postURL = "http://" + postURL;
         }
         String debug = pref.getString("DEBUG", "OFF");
-
+        motionOn = pref.getBoolean("MOTION_DETECTION", false);
         if (debug.compareTo("ON") == 0) {
             notDebug = false;
         }
@@ -152,8 +154,6 @@ public class GameScreen extends Activity implements SensorEventListener {
     public void runThread() {
 
         new Thread() {
-
-
             public void run() {
                 System.out.println("run: " + lights.toString());
                 long startTime, endTime;
@@ -193,12 +193,10 @@ public class GameScreen extends Activity implements SensorEventListener {
                         }
                         System.out.println(count);
                         count++;
-
                     }
                 }
             }
         }.start();
-
     }
 
     //Disable Back Button
@@ -394,7 +392,7 @@ public class GameScreen extends Activity implements SensorEventListener {
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-        if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+        if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER && motionOn) {
             // Shake detection
             mGravity = event.values.clone();
             float x = mGravity[0];
@@ -406,8 +404,12 @@ public class GameScreen extends Activity implements SensorEventListener {
             mAccel = mAccel * 0.9f + delta;
             // Make this higher or lower according to how much
             // motion you want to detect
-            if (mAccel > 3) {
+            double threshold = (double) pref.getInt("MOTION", 50);
+            if (threshold == 0.0) {
+                threshold = 1.0;
+            }
 
+            if (mAccel > 3.0 * threshold / 50.0) {
                 alertDialog.show();
                 onPause();
             }
