@@ -55,7 +55,8 @@ public class SongList extends Activity {
                 TextView clickedView = (TextView) view;
                 SharedPreferences.Editor editor = getSharedPreferences("preferences", MODE_PRIVATE).edit();
                 editor.putString("CLICKED_SONG", (String) clickedView.getText());
-                editor.commit();
+
+                editor.apply();
                 SharedPreferences pref = getSharedPreferences("preferences", MODE_PRIVATE);
                 String storedUrl = pref.getString("url", null);
                 System.out.println(storedUrl);
@@ -66,8 +67,6 @@ public class SongList extends Activity {
                     startActivity(intent);
                     finish();
                 }
-                //Toast.makeText(SongList.this, "Item with id [" + id + "] - Position [" + position + "] - Planet [" + clickedView.getText() + "]", Toast.LENGTH_SHORT).show();
-
             }
         });
     }
