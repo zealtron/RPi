@@ -45,10 +45,6 @@ public class MySettings extends Activity implements SensorEventListener {
         setContentView(R.layout.activity_my_settings);
         getActionBar().setTitle("Settings");
 
-        debug_toggle = (ToggleButton) findViewById(R.id.debugToggle);
-        String debug = pref.getString("DEBUG", "OFF");
-        debug_toggle.setText(debug);
-
         motionOn = pref.getBoolean("MOTION_DETECTION", false);
         motion_toggle = (ToggleButton) findViewById(R.id.motionProtection_toggle);
 

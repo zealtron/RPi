@@ -56,14 +56,14 @@
                 android:layout_height="wrap_content"
                 android:text="@string/whatsthis"
                 android:id="@+id/motionProtection_info"
-                android:textSize="11dp"
+                android:textSize="12dp"
                 android:paddingBottom="4dp"
                 android:paddingLeft="10dp"
                 android:height="30dp"
-                android:textColor="#ffb56400"
                 android:layout_alignParentTop="true"
                 android:onClick="whatsThis"
                 android:layout_toRightOf="@id/motionProtection_title"
+                android:layout_marginLeft="15dp"
                  />
 
 
@@ -112,9 +112,9 @@
 
         </RelativeLayout>
             <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
+                android:layout_width="100dp"
+                android:layout_height="55dp"
+                android:layout_below="@+id/connectionPanel"
                 android:layout_centerHorizontal="true"
                 android:text="Done"
                 android:layout_alignParentBottom="true"

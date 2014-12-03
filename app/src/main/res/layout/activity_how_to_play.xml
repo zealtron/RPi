@@ -7,9 +7,6 @@
     android:background="@drawable/background3"
     tools:context="cs4720furrett.rpimobileproject.HowToPlay">
 
-    <TextView android:text="@string/hello_world" android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -19,5 +16,19 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:onClick="switchToMainMenu" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="To play Pi Pi Revolution, you must first set your RPi's URL in the settings page.\nAfterwards click play and select a song. Hit the buttons according to their respective notes along the LED strip to score points!"
+        android:id="@+id/textView2"
+        android:textSize = "48dp"
+
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
 </RelativeLayout>

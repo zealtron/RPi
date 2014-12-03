@@ -97,7 +97,7 @@
                     android:layout_alignParentStart="true"
                     android:layout_alignParentLeft="true"
                     android:layout_centerInParent="true"
-                    android:onClick="onBtnClicked"
+                    android:onClick="onRedBtnClicked"
                     />
 
                 <ImageButton
@@ -108,7 +108,7 @@
                     android:src="@drawable/bluebutton"
                     android:gravity="bottom"
                     android:layout_centerInParent="true"
-                    android:onClick="onBtnClicked"
+                    android:onClick="onBlueBtnClicked"
                     android:layout_alignParentBottom="true"
                     android:layout_marginBottom="20px"
                     />
@@ -123,7 +123,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
                     android:layout_centerInParent="true"
-                    android:onClick="onBtnClicked"
+                    android:onClick="onGreenBtnClicked"
                     />
 
                 <LinearLayout

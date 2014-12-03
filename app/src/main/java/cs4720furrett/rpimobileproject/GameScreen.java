@@ -102,11 +102,6 @@ public class GameScreen extends Activity implements SensorEventListener {
             postURL = pref.getString("url", "no url defined");
             if (!postURL.startsWith("http://")) postURL = "http://" + postURL;
         }
-        String debug = pref.getString("DEBUG", "OFF");
-        motionOn = pref.getBoolean("MOTION_DETECTION", false);
-        if (debug.compareTo("ON") == 0) {
-            notDebug = false;
-        }
 
         if (storedUrl != null && storedUrl.compareTo("") != 0) {
             httpClient = new DefaultHttpClient();
@@ -126,7 +121,6 @@ public class GameScreen extends Activity implements SensorEventListener {
 
         getActionBar().setTitle("Now Playing " + data);
         System.out.println(data);
-        System.out.println(debug);
         if(data.equals("Jingle Bells")){
             songID =  R.raw.jingle;
         }
@@ -397,9 +391,21 @@ public class GameScreen extends Activity implements SensorEventListener {
         scoreView.setText("" + score);
     }
 
-    public void onBtnClicked(View v) {
+    public void onRedBtnClicked(View v) {
+        onBtnClicked("red");
+    }
+
+    public void onBlueBtnClicked(View v) {
+        onBtnClicked("blue");
+    }
+
+    public void onGreenBtnClicked(View v) {
+        onBtnClicked("green");
+    }
+
+    public void onBtnClicked(String color) {
         long currentTime = System.currentTimeMillis();
-        if (currentTime >= valid && currentTime <= valid + sleepTime) { //if note was hit
+        if (currentTime >= valid && currentTime <= valid + sleepTime && color.equals(last_color)) { //if note was hit
 
             noteHit = true; //indicate note was hit
 
