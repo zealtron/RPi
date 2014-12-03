@@ -89,7 +89,7 @@ public class GameScreen extends Activity implements SensorEventListener {
     private TextView comboView;
     private TextView lifeView;
     private TextView scoreView;
-
+    private volatile MediaPlayer player;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -208,7 +208,7 @@ public class GameScreen extends Activity implements SensorEventListener {
             public void run() {
                 System.out.println("run: " + lights.toString());
                 long startTime, endTime;
-                MediaPlayer player = MediaPlayer.create(GameScreen.this, songID);
+                player = MediaPlayer.create(GameScreen.this, songID);
                 boolean musicPlaying = true;
                 player.start();
                 //boolean musicShouldPlay = false;
@@ -488,6 +488,9 @@ public class GameScreen extends Activity implements SensorEventListener {
         focused = true;
         musicShouldPlay = true;
         System.out.println("Resumed");
+        if(player != null) {
+            player.start();
+        }
     }
 
     @Override
@@ -497,6 +500,9 @@ public class GameScreen extends Activity implements SensorEventListener {
         focused = false;
         musicShouldPlay = false;
         System.out.println("Paused");
+        if(player != null) {
+            player.pause();
+        }
     }
 
     @Override
