@@ -131,10 +131,11 @@ public class GameScreen extends Activity implements SensorEventListener {
             @Override
             public void onLoadComplete(SoundPool soundPool, int sampleId, int status) {
                 loaded = true;
+                System.out.println("Loaded song");
             }
         });
         if(data.equals("Jingle Bells")){
-            songID = soundPool.load(this, R.raw.pipi_jingle, 1);
+            songID =  R.raw.pipi_jingle;
         }
         soundPoolID = soundPool.load(this, songID, 1);
 
@@ -178,7 +179,6 @@ public class GameScreen extends Activity implements SensorEventListener {
 
         System.out.println(lights.toString());
 
-        playSound();
         this.runThread();
     }
 
@@ -192,7 +192,7 @@ public class GameScreen extends Activity implements SensorEventListener {
                 long startTime, endTime;
                 //player = MediaPlayer.create(GameScreen.this, songID);
                 //player.start();
-
+                playSound();
 
                 while (running) {
                     if (focused) {
@@ -243,9 +243,10 @@ public class GameScreen extends Activity implements SensorEventListener {
 
     public void playSound() {
         if(loaded && !plays) {
-            soundPool.play(songID, volume, volume, 1, 0, 1f);
+            soundPool.play(soundPoolID, volume, volume, 1, 0, 1f);
             plays = true;
             songCounter++;
+            System.out.println("Play music");
         }
     }
 
