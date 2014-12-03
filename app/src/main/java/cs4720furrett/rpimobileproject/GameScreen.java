@@ -110,6 +110,7 @@ public class GameScreen extends Activity implements SensorEventListener {
         } else {
             notDebug = false;
         }
+        motionOn = pref.getBoolean("MOTION_DETECTION", false);
         builder = new StringBuilder();
         lightsbuilder = new StringBuilder();
         rng = new Random(SEED);
