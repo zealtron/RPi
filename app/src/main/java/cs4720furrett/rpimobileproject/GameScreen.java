@@ -14,6 +14,7 @@ import android.media.MediaPlayer;
 import android.media.SoundPool;
 import android.media.AudioManager;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.FloatMath;
 import android.view.View;
 import android.widget.TextView;
@@ -190,14 +191,23 @@ public class GameScreen extends Activity implements SensorEventListener {
             public void run() {
                 System.out.println("run: " + lights.toString());
                 long startTime, endTime;
-
-
+                MediaPlayer player = MediaPlayer.create(GameScreen.this, songID);
+                player.start();
+                boolean musicPlaying = true;
                 while (running) {
                     if (focused) {
                         startTime = System.currentTimeMillis();
+                        if (musicPlaying && !musicShouldPlay){
+                            player.pause();
+                            musicPlaying = false;
+                        }
+                        if (!musicPlaying && musicShouldPlay){
+                            player.start();
+                            musicPlaying = true;
+                        }
                         //if song ends or fail
                         if (lights.size() == 0 || life <= 0) {
-                            killPlayer = true;
+//                            killPlayer = true;
                             Intent intent = new Intent(game, ResultsScreen.class);
                             intent.putExtra("MAX_COMBO", "" + maxCombo);
                             intent.putExtra("SCORE", "" + score);
@@ -209,8 +219,8 @@ public class GameScreen extends Activity implements SensorEventListener {
                             finish();
                             running = false;
                             focused = false;
+                            player.release();
                         }
-
                         sendPost();
                         endTime = System.currentTimeMillis();
 
