@@ -477,7 +477,7 @@ public class GameScreen extends Activity implements SensorEventListener {
             mAccel = mAccel * 0.9f + delta;
             // Make this higher or lower according to how much
             // motion you want to detect
-            double threshold = (double) pref.getInt("MOTION", 50)*-1.0 + 100.0;
+            double threshold = (double) pref.getInt("MOTION", 50)*-1.0 + 120.0;
             if (mAccel > 3.0 * threshold / 50.0) {
                 alertDialog.show();
                 onPause();
